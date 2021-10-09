@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -15,8 +16,17 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import PersonIcon from '@mui/icons-material/Person';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import HealingIcon from '@mui/icons-material/Healing';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
+
+
+
+
 
 const drawerWidth = 240;
 
@@ -77,6 +87,13 @@ export default function Sidebar() {
     setOpen(false);
   };
 
+  const history = useHistory();
+
+  function navigate(destination) {
+    history.push(destination);
+    console.log('AAAAAAAA');
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -116,25 +133,52 @@ export default function Sidebar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Usuários', 'Pacientes', 'Agenda', 'Atendimentos'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button onClick={() => navigate('/users')}>
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="Usuários" />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/patients')}>
+            <ListItemIcon>
+              <MedicalServicesIcon />
+            </ListItemIcon>
+            <ListItemText primary="Pacientes" />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/home')}>
+            <ListItemIcon>
+              <CalendarTodayIcon />
+            </ListItemIcon>
+            <ListItemText primary="Agenda" />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/attendance')}>
+            <ListItemIcon>
+              <HealingIcon />
+            </ListItemIcon>
+            <ListItemText primary="Atendimentos" />
+          </ListItem>
+          
         </List>
         <Divider />
         <List>
-          {['Resumo Financeiro', 'Movimentação', 'Pacotes de atendimentos'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button onClick={() => navigate('/overview')}>
+            <ListItemIcon>
+              <AttachMoneyIcon />
+            </ListItemIcon>
+            <ListItemText primary="Resumo Financeiro" />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/moviments')}>
+            <ListItemIcon>
+              <SyncAltIcon />
+            </ListItemIcon>
+            <ListItemText primary="Movimentação" />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/packages')}>
+            <ListItemIcon>
+              <RedeemIcon />
+            </ListItemIcon>
+            <ListItemText primary="Pacotes de atendimentos" />
+          </ListItem>
         </List>
       </Drawer>
       <Main open={open}>
