@@ -91,7 +91,6 @@ export default function Sidebar() {
 
   function navigate(destination) {
     history.push(destination);
-    console.log('AAAAAAAA');
   }
 
   return (

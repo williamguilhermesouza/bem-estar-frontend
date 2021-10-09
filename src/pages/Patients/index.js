@@ -7,21 +7,21 @@ import { DataGrid } from '@mui/x-data-grid';
 
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
+  { field: 'id', headerName: 'ID', width: 130 },
+  { field: 'firstName', headerName: 'First name', width: 200 },
+  { field: 'lastName', headerName: 'Last name', width: 200 },
   {
     field: 'age',
     headerName: 'Age',
     type: 'number',
-    width: 90,
+    width: 130,
   },
   {
     field: 'fullName',
     headerName: 'Full name',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 160,
+    width: 200,
     valueGetter: (params) =>
       `${params.getValue(params.id, 'firstName') || ''} ${
         params.getValue(params.id, 'lastName') || ''
@@ -45,7 +45,7 @@ export default function Patients() {
   return(
     <div className="patients">
       <Sidebar />
-      <Typography>yooo Patients!!!</Typography>
+      <Typography>Todos os Pacientes</Typography>
       <DataGrid
         rows={rows}
         columns={columns}
