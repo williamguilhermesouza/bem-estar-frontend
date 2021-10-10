@@ -2,7 +2,7 @@ import React from 'react';
 
 import './styles.css';
 import Sidebar from '../../components/Sidebar';
-import { Typography } from '@mui/material';
+import { Button, Typography, Stack } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
@@ -44,6 +44,16 @@ export default function Users() {
   return(
     <div className="users">
       <Sidebar />
+      <Stack
+        className="button-stack"
+        direction="row"
+        justifyContent="flex-end"
+        spacing={2}
+      >
+        <Button variant="contained" className="user-buttons" href="/users/new">Novo usuário</Button>
+        <Button variant="contained" className="user-buttons" color="warning" onClick={()=>{}}>Editar usuário</Button>
+        <Button variant="contained" className="user-buttons" color="error" onClick={()=>{}}>Excluir usuário</Button>
+      </Stack>
       <Typography>Todos os Usuários</Typography>
       <DataGrid
         rows={rows}

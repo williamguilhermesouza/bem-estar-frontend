@@ -9,6 +9,7 @@ import Attendance from './pages/Attendance';
 import Overview from './pages/Overview';
 import Moviments from './pages/Moviments';
 import AttPackages from './pages/AttPackages';
+import NewUser from './pages/Users/NewUser';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" exact={true} component={Login} />
         <Route path="/home" exact={true} component={Home} />
         <Route path="/patients" exact={true} component={Patients} />
+        <Route path="/users/new" exact={true} component={NewUser} />
         <Route path="/users" exact={true} component={Users} />
         <Route path="/agenda" exact={true} component={Book} />
         <Route path="/attendance" exact={true} component={Attendance} />

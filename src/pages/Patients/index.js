@@ -2,7 +2,7 @@ import React from 'react';
 
 import './styles.css';
 import Sidebar from '../../components/Sidebar';
-import { Typography } from '@mui/material';
+import { Typography, Stack, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 
@@ -45,6 +45,16 @@ export default function Patients() {
   return(
     <div className="patients">
       <Sidebar />
+      <Stack
+        className="button-stack"
+        direction="row"
+        justifyContent="flex-end"
+        spacing={2}
+      >
+        <Button variant="contained" className="patient-buttons">Novo paciente</Button>
+        <Button variant="contained" className="patient-buttons" color="warning" onClick={()=>{}}>Editar paciente</Button>
+        <Button variant="contained" className="patient-buttons" color="error" onClick={()=>{}}>Excluir paciente</Button>
+      </Stack>
       <Typography>Todos os Pacientes</Typography>
       <DataGrid
         rows={rows}

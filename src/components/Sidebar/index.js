@@ -108,7 +108,7 @@ export default function Sidebar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            SpaSaude
+            Saúde e Bem Estar
           </Typography>
         </Toolbar>
       </AppBar>
