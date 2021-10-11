@@ -1,4 +1,4 @@
-import { FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Container } from '@mui/material';
+import { FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Container, Button } from '@mui/material';
 import React from 'react';
 import Sidebar from '../../../components/Sidebar';
 
@@ -59,6 +59,7 @@ export default function NewUser() {
                         </Grid>
                     </Grid>
                 </Paper>
+                <Button variant="contained" sx={{margin: "20px"}} >Salvar</Button>
             </Container>
         </div>
     );
