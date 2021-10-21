@@ -1,16 +1,26 @@
-import { FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Container, Button } from '@mui/material';
+import { Grid, InputLabel, MenuItem, Select, TextField, Container, Button } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
-import React from 'react';
+import React, {useState} from 'react';
 import Sidebar from '../../../components/Sidebar';
-import { padding } from '@mui/system';
+import DatePicker from '@mui/lab/DatePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 
 const useStyles = makeStyles(theme => createStyles({
     root: {},
+    inputML: {
+        margin: 4,
+    },
+    sexInput: {
+        marginTop: -4,
+    },
 }));
 
 export default function NewUser() {
     const classes = useStyles();
-    const [sex, setSex] = React.useState('');
+    const [sex, setSex] = useState('Masculino');
+    const [birthDate, setBirthDate] = useState();
 
     const handleChange = (event) => {
         setSex(event.target.value);
@@ -22,60 +32,49 @@ export default function NewUser() {
         <div className="new-user">
             <Sidebar />
             <Container maxWidth="xl">
-                <p className="new-user-title">Novo Usuário</p>
+                <p>Novo Usuário</p>
                 <form method="POST" action="/users">
                     <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <TextField fullWidth className="new-text-field" label="CPF"/>
+                        <Grid item xs={4}>
+                            <TextField fullWidth label="Nome Completo"/>
+                            <TextField fullWidth label="Rua" />
+                            <TextField label="E-mail" />
+                            <TextField label="Senha" sx={{marginLeft: 2}} />
                         </Grid>
-                        <Grid item xs={6}>
-                            <TextField className="new-text-field" label="CPF"/>
+                        <Grid item xs={4}>
+                            <TextField className={classes.inputML} sx={{width: 150, marginRight: 2}} label="CPF"/>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    label="Data de Nascimento"
+                                    value={birthDate}
+                                    onChange={(newValue) => {
+                                    setBirthDate(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
+                            <TextField label="Número" />
+                            <TextField label="Bairro" sx={{marginLeft: 2}} />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <InputLabel id="sexLabel" sx={{marginTop: -3 }}>Sexo</InputLabel>
+                            <Select
+                                labelId="sexLabel"
+                                id="sex"
+                                value={sex}
+                                onChange={handleChange}
+                                label="Sexo"
+                            >
+                                <MenuItem value="Masculino">Masculino</MenuItem>
+                                <MenuItem value="Feminino">Feminino</MenuItem>
+                            </Select>
+                            <TextField label="Telefone" sx={{marginLeft: 2}} />
+                            <TextField label="Cidade" />
+                            <TextField label="Estado" sx={{marginLeft: 2}} />
                         </Grid>
                     </Grid>
-                    {/* <Paper >
-                        <Grid container spacing={2}>
-                            <Grid item xs={2}>
-                                <TextField fullWidth className="new-text-field" label="CPF"/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <TextField fullWidth className="new-text-field" label="Nome Completo" />
-                            </Grid>
-                            <Grid item xs={1}>
-                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                                    <InputLabel id="demo-simple-select-standard-label">Sexo</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-standard-label"
-                                        id="demo-simple-select-standard"
-                                        value={sex}
-                                        onChange={handleChange}
-                                        label="Sexo"
-                                    >
-                                        <MenuItem value="Masculino">Masculino</MenuItem>
-                                        <MenuItem value="Feminino">Feminino</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <TextField fullWidth className="new-text-field" label="Telefone" />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <TextField fullWidth className="new-text-field" label="Rua" />
-                            </Grid>
-                            <Grid item xs={1}>
-                                <TextField fullWidth className="new-text-field" label="Número" />
-                            </Grid>
-                            <Grid item xs={1}>
-                                <TextField fullWidth className="new-text-field" label="Bairro" />
-                            </Grid>
-                            <Grid item xs={1}>
-                                <TextField fullWidth className="new-text-field" label="Cidade" />
-                            </Grid>
-                            <Grid item xs={1}>
-                                <TextField fullWidth className="new-text-field" label="Estado" />
-                            </Grid>
-                        </Grid>
-                    </Paper> */}
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
+                    <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
                 </form>
             </Container>
         </div>

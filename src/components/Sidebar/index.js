@@ -17,7 +17,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PersonIcon from '@mui/icons-material/Person';
-import RedeemIcon from '@mui/icons-material/Redeem';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import HealingIcon from '@mui/icons-material/Healing';
