@@ -3,9 +3,9 @@ import React from 'react';
 import Sidebar from '../../components/Sidebar';
 import { Typography } from '@mui/material';
 
-export default function Moviments() {
+export default function Movements() {
   return(
-    <div className="moviments">
+    <div className="movements">
       <Sidebar />
       <Typography>yooo movs!!!</Typography>
     </div>

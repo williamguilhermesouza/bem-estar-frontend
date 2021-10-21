@@ -5,7 +5,7 @@ import Users from './pages/Users';
 import Patients from './pages/Patients';
 import Attendance from './pages/Attendance';
 import Overview from './pages/Overview';
-import Moviments from './pages/Moviments';
+import Movements from './pages/Movements';
 import NewUser from './pages/Users/NewUser';
 
 function App() {
@@ -13,13 +13,13 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact={true} component={Login} />
-        <Route path="/home" exact={true} component={Home} />
-        <Route path="/patients" exact={true} component={Patients} />
-        <Route path="/users/new" exact={true} component={NewUser} />
-        <Route path="/users" exact={true} component={Users} />
-        <Route path="/attendance" exact={true} component={Attendance} />
-        <Route path="/overview" exact={true} component={Overview} />
-        <Route path="/moviments" exact={true} component={Moviments} />
+        <Route path="/home" component={Home} />
+        <Route path="/patients" component={Patients} />
+        <Route path="/users/new" component={NewUser} />
+        <Route path="/users" component={Users} />
+        <Route path="/attendance" component={Attendance} />
+        <Route path="/overview" component={Overview} />
+        <Route path="/movements" component={Movements} />
       </Switch>
     </BrowserRouter>
   );

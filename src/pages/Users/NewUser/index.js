@@ -1,8 +1,15 @@
 import { FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Container, Button } from '@mui/material';
+import { createStyles, makeStyles } from '@material-ui/styles';
 import React from 'react';
 import Sidebar from '../../../components/Sidebar';
+import { padding } from '@mui/system';
+
+const useStyles = makeStyles(theme => createStyles({
+    root: {},
+}));
 
 export default function NewUser() {
+    const classes = useStyles();
     const [sex, setSex] = React.useState('');
 
     const handleChange = (event) => {
@@ -17,7 +24,15 @@ export default function NewUser() {
             <Container maxWidth="xl">
                 <p className="new-user-title">Novo Usuário</p>
                 <form method="POST" action="/users">
-                    <Paper >
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <TextField fullWidth className="new-text-field" label="CPF"/>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField className="new-text-field" label="CPF"/>
+                        </Grid>
+                    </Grid>
+                    {/* <Paper >
                         <Grid container spacing={2}>
                             <Grid item xs={2}>
                                 <TextField fullWidth className="new-text-field" label="CPF"/>
@@ -59,7 +74,7 @@ export default function NewUser() {
                                 <TextField fullWidth className="new-text-field" label="Estado" />
                             </Grid>
                         </Grid>
-                    </Paper>
+                    </Paper> */}
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
                 </form>
             </Container>
