@@ -172,12 +172,6 @@ export default function Sidebar() {
             </ListItemIcon>
             <ListItemText primary="Movimentação" />
           </ListItem>
-          <ListItem button onClick={() => navigate('/packages')}>
-            <ListItemIcon>
-              <RedeemIcon />
-            </ListItemIcon>
-            <ListItemText primary="Pacotes de atendimentos" />
-          </ListItem>
         </List>
       </Drawer>
       <Main open={open}>

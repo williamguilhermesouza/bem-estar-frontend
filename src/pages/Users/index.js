@@ -1,8 +1,8 @@
 import React from 'react';
 
-import './styles.css';
 import Sidebar from '../../components/Sidebar';
 import { Button, Typography, Stack } from '@mui/material';
+import { createStyles, makeStyles } from '@material-ui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
@@ -40,19 +40,35 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
+const useStyles = makeStyles(theme => createStyles({
+  root: {
+    height: '400px',
+    width: '100%',
+  },
+  buttonStack: {
+    marginRight: '20px',
+  },
+  userButtons: {
+    width: '200px',
+  },
+
+}));
+
 export default function Users() {
+  const classes = useStyles();
+
   return(
-    <div className="users">
+    <div className={classes.root}>
       <Sidebar />
       <Stack
-        className="button-stack"
+        className={classes.buttonStack}
         direction="row"
         justifyContent="flex-end"
         spacing={2}
       >
-        <Button variant="contained" className="user-buttons" href="/users/new">Novo usuário</Button>
-        <Button variant="contained" className="user-buttons" color="warning" onClick={()=>{}}>Editar usuário</Button>
-        <Button variant="contained" className="user-buttons" color="error" onClick={()=>{}}>Excluir usuário</Button>
+        <Button variant="contained" className={classes.userButtons} href="/users/new">Novo usuário</Button>
+        <Button variant="contained" className={classes.userButtons} color="warning" onClick={()=>{}}>Editar usuário</Button>
+        <Button variant="contained" className={classes.userButtons} color="error" onClick={()=>{}}>Excluir usuário</Button>
       </Stack>
       <Typography>Todos os Usuários</Typography>
       <DataGrid

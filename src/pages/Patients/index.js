@@ -1,6 +1,5 @@
 import React from 'react';
 
-import './styles.css';
 import Sidebar from '../../components/Sidebar';
 import { Typography, Stack, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
