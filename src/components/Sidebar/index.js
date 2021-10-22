@@ -165,7 +165,7 @@ export default function Sidebar() {
             </ListItemIcon>
             <ListItemText primary="Resumo Financeiro" />
           </ListItem>
-          <ListItem button onClick={() => navigate('/moviments')}>
+          <ListItem button onClick={() => navigate('/movements')}>
             <ListItemIcon>
               <SyncAltIcon />
             </ListItemIcon>
