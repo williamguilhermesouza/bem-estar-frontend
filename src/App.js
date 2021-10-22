@@ -7,6 +7,7 @@ import Attendance from './pages/Attendance';
 import Overview from './pages/Overview';
 import Movements from './pages/Movements';
 import NewUser from './pages/Users/NewUser';
+import AttendanceListing from './pages/Attendance/AttendanceListing';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/patients" component={Patients} />
         <Route path="/users/new" component={NewUser} />
         <Route path="/users" component={Users} />
+        <Route path="/attendance/listing" component={AttendanceListing} />
         <Route path="/attendance" component={Attendance} />
         <Route path="/overview" component={Overview} />
         <Route path="/movements" component={Movements} />
