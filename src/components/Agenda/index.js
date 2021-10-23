@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactAgenda , ReactAgendaCtrl , guid ,  Modal } from 'react-agenda';
  
-require('moment/locale/fr.js'); // this is important for traduction purpose
+require('moment/locale/pt-br.js'); // this is important for traduction purpose
  
 var colors= {
   'color-1':"rgba(102, 195, 131 , 1)" ,
@@ -37,7 +37,7 @@ export default class Agenda extends React.Component {
       selected:[],
       cellHeight:30,
       showModal:false,
-      locale:"fr",
+      locale:"pt-br",
       rowsPerHour:2,
       numberOfDays:4,
       startDate: new Date()
