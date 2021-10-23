@@ -4,6 +4,9 @@ import Sidebar from '../../components/Sidebar';
 import { Button, Typography, Stack } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import { DataGrid } from '@mui/x-data-grid';
+import {getUsers} from '../../services/API';
+
+console.log(getUsers());
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 130 },
