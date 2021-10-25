@@ -67,9 +67,9 @@ export default function NewUser(props) {
             } else {
                 await createUser(values);
             }
-            setSnackMessage('Usuário criado com sucesso!');
+            setSnackMessage('Operação realizada com sucesso!');
         } catch {
-            setSnackMessage('Erro ao criar usuário!');
+            setSnackMessage('Erro ao realizar operação');
         }
 
         setOpenSnack(true);
