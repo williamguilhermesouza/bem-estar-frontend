@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import { useHistory } from "react-router-dom";
 import Sidebar from '../../components/Sidebar';
 import { Button, Typography, Stack } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import { DataGrid } from '@mui/x-data-grid';
-import {getUsers} from '../../services/API';
+import {getUsers, getUser, deleteUser} from '../../services/API';
 
 
 const useStyles = makeStyles(theme => createStyles({
@@ -21,8 +22,11 @@ const useStyles = makeStyles(theme => createStyles({
 }));
 
 export default function Users() {
+  const history = useHistory();
   const classes = useStyles();
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState();
+  const [selectedUsersIds, setSelectedUsersIds] = useState([]);
 
   useEffect(() => {
     getUsers().then( response => {setUsers(response.data);})
@@ -36,6 +40,25 @@ export default function Users() {
     { field: 'email', headerName: 'E-mail', width: 200},
   ];
 
+  async function handleUpdateUser() {
+    history.push('/users/new', {user: selectedUser});
+  }
+
+  async function handleDeleteUser() {
+    selectedUsersIds.forEach(async id => {
+      await deleteUser(id);
+      setUsers(users.filter(user => {
+        return user.id !== id;
+      }));
+    });
+  }
+
+  async function handleRowSelection(row) {
+    const user = await getUser(row[0]);
+    setSelectedUser(user.data);
+    setSelectedUsersIds(row);
+  }
+
   return(
     <div className={classes.root}>
       <Sidebar />
@@ -46,8 +69,8 @@ export default function Users() {
         spacing={2}
       >
         <Button variant="contained" className={classes.userButtons} href="/users/new">Novo usuário</Button>
-        <Button variant="contained" className={classes.userButtons} color="warning" onClick={()=>{}}>Editar usuário</Button>
-        <Button variant="contained" className={classes.userButtons} color="error" onClick={()=>{}}>Excluir usuário</Button>
+        <Button variant="contained" className={classes.userButtons} color="warning" onClick={handleUpdateUser}>Editar usuário</Button>
+        <Button variant="contained" className={classes.userButtons} color="error" onClick={handleDeleteUser}>Excluir usuário</Button>
       </Stack>
       <Typography>Todos os Usuários</Typography>
       <DataGrid
@@ -56,6 +79,7 @@ export default function Users() {
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        onSelectionModelChange={handleRowSelection}
       />
     </div>
   );

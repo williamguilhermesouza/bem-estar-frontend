@@ -1,4 +1,4 @@
-import { Grid, InputLabel, MenuItem, Select, TextField, Container, Button } from '@mui/material';
+import { Grid, InputLabel, MenuItem, Select, TextField, Container, Button, Snackbar } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import React, {useState} from 'react';
 import Sidebar from '../../../components/Sidebar';
@@ -19,10 +19,11 @@ const useStyles = makeStyles(theme => createStyles({
     },
 }));
 
-export default function NewUser() {
+export default function NewUser(props) {
     const classes = useStyles();
+    console.log(props);
     
-    const user = {
+    let user = {
         name: '',
         sex: '',
         phoneNumber: '',
@@ -36,8 +37,16 @@ export default function NewUser() {
         email: '',
         password: '',
     };
+
+    if (props.location.state.user) {
+        user = props.location.state.user;
+        console.log(props.location.state.user);
+    }
     
     const [values, setValues] = useState(user);
+    const [openSnack, setOpenSnack] = useState(false);
+    const [snackMessage, setSnackMessage] = useState();
+    const vertical = 'top'; const horizontal = 'right';
 
 
     const handleChange = (event) => {
@@ -51,8 +60,15 @@ export default function NewUser() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const result = await createUser(values);
-        console.log(result);
+
+        try {
+            await createUser(values);
+            setSnackMessage('Usuário criado com sucesso!');
+        } catch {
+            setSnackMessage('Erro ao criar usuário!');
+        }
+
+        setOpenSnack(true);
     }
 
 
@@ -168,6 +184,14 @@ export default function NewUser() {
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
                     <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
                 </form>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={openSnack}
+                    onClose={() => setOpenSnack(false)}
+                    autoHideDuration={6000}
+                    message={snackMessage}
+                    key={vertical + horizontal}
+                />
             </Container>
         </div>
     );
