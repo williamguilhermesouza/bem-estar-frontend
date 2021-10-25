@@ -54,6 +54,9 @@ export default function Users() {
   }
 
   async function handleRowSelection(row) {
+    if (!row[0]) {
+      return
+    }
     const user = await getUser(row[0]);
     setSelectedUser(user.data);
     setSelectedUsersIds(row);

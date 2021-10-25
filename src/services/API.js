@@ -15,6 +15,10 @@ export async function createUser(user) {
     return await axios.post(`${baseUrl}/users`, user);
 } 
 
+export async function updateUser(id, user) {
+    return await axios.patch(`${baseUrl}/users/${id}`, user);
+}
+
 export async function deleteUser(id) {
     return await axios.delete(`${baseUrl}/users/${id}`);
 }

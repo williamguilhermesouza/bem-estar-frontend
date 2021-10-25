@@ -5,7 +5,7 @@ import Sidebar from '../../../components/Sidebar';
 import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {createUser} from '../../../services/API';
+import {createUser, updateUser} from '../../../services/API';
 import ptLocale from 'date-fns/locale/pt-br';
 
 
@@ -62,7 +62,11 @@ export default function NewUser(props) {
         e.preventDefault();
 
         try {
-            await createUser(values);
+            if (user) {
+                await updateUser(values.id, values);
+            } else {
+                await createUser(values);
+            }
             setSnackMessage('Usuário criado com sucesso!');
         } catch {
             setSnackMessage('Erro ao criar usuário!');
