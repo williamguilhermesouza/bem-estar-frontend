@@ -1,32 +1,10 @@
-import React from 'react';
-
+import React, {useEffect, useState} from 'react';
 import Sidebar from '../../components/Sidebar';
 import { Button, Typography, Stack } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import {getUsers} from '../../services/API';
 
-console.log(getUsers());
-
-const columns = [
-  { field: 'id', headerName: 'ID', width: 130 },
-  { field: 'cpf', headerName: 'CPF', width: 200 },
-  { field: 'fullName', headerName: 'Nome Completo', width: 200 },
-  { field: 'phone', headerName: 'Telefone', width: 140 },
-  { field: 'email', headerName: 'E-mail', width: 200},
-];
-
-const rows = [
-  { id: 1, fullName: 'Jon Snow', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  { id: 2, fullName: 'Cersei Lannister', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  { id: 3, fullName: 'Jaime Lannister', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  { id: 4, fullName: 'Arya Stark', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  { id: 5, fullName: 'Daenerys Targaryen', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  { id: 6, fullName: 'Melisandre', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  { id: 7, fullName: 'Ferrara Clifford', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  { id: 8, fullName: 'Rossini Frances', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  { id: 9, fullName: 'Harvey Roxie', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-];
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -44,6 +22,19 @@ const useStyles = makeStyles(theme => createStyles({
 
 export default function Users() {
   const classes = useStyles();
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    getUsers().then( response => {setUsers(response.data);})
+  },[setUsers]);
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 130 },
+    { field: 'cpf', headerName: 'CPF', width: 200 },
+    { field: 'name', headerName: 'Nome Completo', width: 200 },
+    { field: 'phoneNumber', headerName: 'Telefone', width: 140 },
+    { field: 'email', headerName: 'E-mail', width: 200},
+  ];
 
   return(
     <div className={classes.root}>
@@ -60,7 +51,7 @@ export default function Users() {
       </Stack>
       <Typography>Todos os Usuários</Typography>
       <DataGrid
-        rows={rows}
+        rows={users}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
