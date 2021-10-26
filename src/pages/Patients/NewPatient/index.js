@@ -5,7 +5,7 @@ import Sidebar from '../../../components/Sidebar';
 import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {createUser, updateUser} from '../../../services/API';
+import {createPatient, updatePatient} from '../../../services/API';
 import ptLocale from 'date-fns/locale/pt-br';
 
 
@@ -19,11 +19,11 @@ const useStyles = makeStyles(theme => createStyles({
     },
 }));
 
-export default function NewUser(props) {
+export default function NewPatient(props) {
     const classes = useStyles();
     console.log(props);
     
-    let user = {
+    let patient = {
         name: '',
         sex: '',
         phoneNumber: '',
@@ -39,11 +39,11 @@ export default function NewUser(props) {
     };
 
     if (props.location.state) {
-        user = props.location.state.user;
-        console.log(props.location.state.user);
+        patient = props.location.state.patient;
+        console.log(props.location.state.patient);
     }
     
-    const [values, setValues] = useState(user);
+    const [values, setValues] = useState(patient);
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
     const vertical = 'top'; const horizontal = 'right';
@@ -62,10 +62,10 @@ export default function NewUser(props) {
         e.preventDefault();
 
         try {
-            if (user) {
-                await updateUser(values.id, values);
+            if (patient) {
+                await updatePatient(values.id, values);
             } else {
-                await createUser(values);
+                await createPatient(values);
             }
             setSnackMessage('Operação realizada com sucesso!');
         } catch {
@@ -78,7 +78,7 @@ export default function NewUser(props) {
 
     return(
         
-        <div className="new-user">
+        <div className="new-patient">
             <Sidebar />
             <Container maxWidth="xl">
                 <p>Novo Usuário</p>

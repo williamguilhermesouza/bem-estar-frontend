@@ -8,6 +8,7 @@ import Overview from './pages/Overview';
 import Movements from './pages/Movements';
 import NewUser from './pages/Users/NewUser';
 import AttendanceListing from './pages/Attendance/AttendanceListing';
+import NewPatient from './pages/Patients/NewPatient';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Switch>
         <Route path="/" exact={true} component={Login} />
         <Route path="/home" component={Home} />
+        <Route path="/patients/new" component={NewPatient} />
         <Route path="/patients" component={Patients} />
         <Route path="/users/new" component={NewUser} />
         <Route path="/users" component={Users} />

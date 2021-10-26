@@ -81,7 +81,6 @@ export default function Users() {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        checkboxSelection
         onSelectionModelChange={handleRowSelection}
       />
     </div>
