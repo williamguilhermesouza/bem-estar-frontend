@@ -10,7 +10,12 @@ import ptLocale from 'date-fns/locale/pt-br';
 
 
 const useStyles = makeStyles(theme => createStyles({
-    root: {},
+    root: {
+        '& .MuiFormControl-root': {
+            width: '80%',
+            margin: 10,
+        },
+    },
     inputML: {
         margin: 4,
     },
@@ -82,7 +87,7 @@ export default function NewUser(props) {
             <Sidebar />
             <Container maxWidth="xl">
                 <p>Novo Usuário</p>
-                <form method="POST" onSubmit={handleSubmit}>
+                <form method="POST" onSubmit={handleSubmit} className={classes.root}>
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
                             <TextField 
