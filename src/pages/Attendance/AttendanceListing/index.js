@@ -39,8 +39,11 @@ const useStyles = makeStyles(theme => createStyles({
 
 }));
 
-export default function AttendanceListing() {
+export default function AttendanceListing(props) {
   const classes = useStyles();
+  
+  let patient = props.location.state.patient;
+  console.log(props.location.state.patient);
 
   return(
     <div className={classes.root}>

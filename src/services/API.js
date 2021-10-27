@@ -45,3 +45,23 @@ export async function updatePatient(id, user) {
 export async function deletePatient(id) {
     return await axios.delete(`${baseUrl}/patients/${id}`);
 }
+// ######### ATTENDANCE ############
+export async function getAttendances() {
+    return await axios.get(`${baseUrl}/attendances`);
+}
+
+export async function getAttendance(id) {
+    return await axios.get(`${baseUrl}/attendances/${id}`);
+}
+
+export async function createAttendance(user) {
+    return await axios.post(`${baseUrl}/attendances`, user);
+} 
+
+export async function updateAttendance(id, user) {
+    return await axios.patch(`${baseUrl}/attendances/${id}`, user);
+}
+
+export async function deleteAttendance(id) {
+    return await axios.delete(`${baseUrl}/attendances/${id}`);
+}
