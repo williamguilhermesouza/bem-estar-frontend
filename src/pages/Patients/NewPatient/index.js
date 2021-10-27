@@ -134,7 +134,7 @@ export default function NewPatient(props) {
                 <p>Novo Paciente</p>
                 <form method="POST" onSubmit={handleSubmit} className={classes.root}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                        <Grid item xs={4}>
                             <TextField  
                                 label="Nome Completo" 
                                 name="name"
@@ -244,6 +244,8 @@ export default function NewPatient(props) {
                                 value={values.religion}
                                 onChange={handleChange}
                             />
+                        
+                        
                             <TextField 
                                 label="Escolaridade" 
                                 name="scholarship" 
@@ -285,7 +287,8 @@ export default function NewPatient(props) {
                                 value={values.currentDiseaseHistoric}
                                 onChange={handleChange}
                             />
-
+                        </Grid>
+                        <Grid item xs={4}>
                             <TextField 
                                 label="Doenças Associadas" 
                                 name="associateDiseases" 
@@ -306,6 +309,7 @@ export default function NewPatient(props) {
                                 value={values.familyHistoric}
                                 onChange={handleChange}
                             />
+                        
                             <TextField 
                                 label="Hábitos" 
                                 name="lifeHabits" 
@@ -329,6 +333,7 @@ export default function NewPatient(props) {
                                 value={values.mainComplain}
                                 onChange={handleChange}
                             />
+                        
                             <TextField 
                                 label="Medicação" 
                                 name="medication" 
@@ -385,6 +390,7 @@ export default function NewPatient(props) {
                                 value={values.ventilationMuscularPattern}
                                 onChange={handleChange}
                             />
+                        
                             <TextField 
                                 label="Ritmo Ventilatório" 
                                 name="ventilationRhythm" 
@@ -419,6 +425,8 @@ export default function NewPatient(props) {
                                 value={values.thoracicMobility}
                                 onChange={handleChange}
                             />
+                        </Grid>
+                        <Grid item xs={4}>
                             <TextField 
                                 label="Expansão Pulmonar" 
                                 name="lungExpansion" 
@@ -434,6 +442,7 @@ export default function NewPatient(props) {
                                 value={values.respiratoryFrequency}
                                 onChange={handleChange}
                             />
+                        
                             <TextField 
                                 label="Frequência Cardiaca" 
                                 name="cardiacFrequency" 
