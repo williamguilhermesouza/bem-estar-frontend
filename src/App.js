@@ -9,6 +9,7 @@ import Movements from './pages/Movements';
 import NewUser from './pages/Users/NewUser';
 import AttendanceListing from './pages/Attendance/AttendanceListing';
 import NewPatient from './pages/Patients/NewPatient';
+import NewAttendance from './pages/Attendance/NewAttendance';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/patients" component={Patients} />
         <Route path="/users/new" component={NewUser} />
         <Route path="/users" component={Users} />
+        <Route path="/attendance/new" component={NewAttendance} />
         <Route path="/attendance/listing" component={AttendanceListing} />
         <Route path="/attendance" component={Attendance} />
         <Route path="/overview" component={Overview} />

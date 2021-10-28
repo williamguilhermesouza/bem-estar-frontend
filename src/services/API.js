@@ -54,12 +54,12 @@ export async function getAttendance(id) {
     return await axios.get(`${baseUrl}/attendances/${id}`);
 }
 
-export async function createAttendance(user) {
-    return await axios.post(`${baseUrl}/attendances`, user);
+export async function createAttendance(attendance) {
+    return await axios.post(`${baseUrl}/attendances`, attendance);
 } 
 
-export async function updateAttendance(id, user) {
-    return await axios.patch(`${baseUrl}/attendances/${id}`, user);
+export async function updateAttendance(id, attendance) {
+    return await axios.patch(`${baseUrl}/attendances/${id}`, attendance);
 }
 
 export async function deleteAttendance(id) {
