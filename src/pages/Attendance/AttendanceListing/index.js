@@ -1,26 +1,9 @@
-import React from 'react';
-
+import React, {useState, useEffect} from 'react';
 import Sidebar from '../../../components/Sidebar';
 import { Button, Typography, Stack } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import { DataGrid } from '@mui/x-data-grid';
-
-const columns = [
-    { field: 'id', headerName: 'ID', width: 130 },
-    { field: 'attendanceDate', headerName: 'Data do atendimento', width: 400 },
-  ];
-  
-  const rows = [
-    { id: 1, attendanceDate: 'Jon Snow', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-    { id: 2, attendanceDate: 'Cersei Lannister', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-    { id: 3, attendanceDate: 'Jaime Lannister', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-    { id: 4, attendanceDate: 'Arya Stark', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-    { id: 5, attendanceDate: 'Daenerys Targaryen', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-    { id: 6, attendanceDate: 'Melisandre', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-    { id: 7, attendanceDate: 'Ferrara Clifford', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-    { id: 8, attendanceDate: 'Rossini Frances', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-    { id: 9, attendanceDate: 'Harvey Roxie', cpf: '11527327744', phone: '34559856', email: 'gameofthrones@gmail.com' },
-  ]
+import {getAttendanceByPatientId} from '../../../services/API';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -41,9 +24,32 @@ const useStyles = makeStyles(theme => createStyles({
 
 export default function AttendanceListing(props) {
   const classes = useStyles();
+  const [attendances, setAttendances] = useState([]);
   
   let patient = props.location.state.patient;
-  console.log(props.location.state.patient);
+  
+  async function retrieveData() {
+    const response = await getAttendanceByPatientId(patient.id);
+    response.data.forEach(element => {
+      element.attendanceDate = new Date(element.attendanceDate).toLocaleDateString("pt-br", {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    });
+    setAttendances(response.data);
+    
+  }
+
+
+  useEffect(() => {
+    retrieveData();
+  },[]);
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 130 },
+    { field: 'attendanceDate', headerName: 'Data do atendimento', width: 400 },
+  ];
 
   return(
     <div className={classes.root}>
@@ -60,7 +66,7 @@ export default function AttendanceListing(props) {
       </Stack>
       <Typography>Todos os Atendimentos</Typography>
       <DataGrid
-        rows={rows}
+        rows={attendances}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}

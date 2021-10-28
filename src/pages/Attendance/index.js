@@ -30,11 +30,11 @@ export default function Attendance() {
   const history = useHistory();
 
   const [patients, setPatients] = useState([]);
-  const [selectedPatient, setSelectedPatient] = useState();
-  const [selectedPatientsIds, setSelectedPatientsIds] = useState([]);
+  const [originalPatients, setOriginalPatients] = useState([]); 
+  const [filterField, setFilterField] = useState('');
 
   useEffect(() => {
-    getPatients().then( response => {setPatients(response.data);})
+    getPatients().then( response => {setPatients(response.data); setOriginalPatients(response.data);})
   },[setPatients]);
 
   const columns = [
@@ -50,17 +50,28 @@ export default function Attendance() {
       return
     }
     const patient = await getPatient(row[0]);
-    setSelectedPatient(patient.data);
-    setSelectedPatientsIds(row);
     history.push('/attendance/listing', {patient: patient.data});
+  }
+
+  function handlePatientFilter() {
+    setPatients(
+
+      originalPatients.filter(patient => {
+        return patient.name.includes(filterField)
+      })
+    );
+  }
+
+  function handleFieldChange(e) {
+    setFilterField(e.target.value);
   }
 
   return(
     <div className={classes.root}>
       <Sidebar />
       <Container maxWidth="xl">
-        <TextField label="Nome do Paciente" className={classes.searchField} />
-        <Button variant="contained" className={classes.userButtons} sx={{marginTop: '5px', marginLeft: '15px'}} href="/attendance/listing">Buscar</Button>
+        <TextField label="Nome do Paciente" className={classes.searchField} value={filterField} onChange={handleFieldChange} />
+        <Button variant="contained" className={classes.userButtons} sx={{marginTop: '5px', marginLeft: '15px'}} onClick={handlePatientFilter}>Filtrar</Button>
       </Container>
         <DataGrid
           rows={patients}

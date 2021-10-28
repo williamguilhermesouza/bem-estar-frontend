@@ -65,3 +65,7 @@ export async function updateAttendance(id, user) {
 export async function deleteAttendance(id) {
     return await axios.delete(`${baseUrl}/attendances/${id}`);
 }
+
+export async function getAttendanceByPatientId(id) {
+    return await axios.get(`${baseUrl}/attendances/patientId/${id}`);
+}
