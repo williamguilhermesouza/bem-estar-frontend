@@ -10,6 +10,7 @@ import NewUser from './pages/Users/NewUser';
 import AttendanceListing from './pages/Attendance/AttendanceListing';
 import NewPatient from './pages/Patients/NewPatient';
 import NewAttendance from './pages/Attendance/NewAttendance';
+import './App.css';
 
 
 function App() {
