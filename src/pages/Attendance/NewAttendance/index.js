@@ -5,7 +5,7 @@ import Sidebar from '../../../components/Sidebar';
 import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {createAttendance, updateAttendance} from '../../../services/API';
+import {createAttendance} from '../../../services/API';
 import ptLocale from 'date-fns/locale/pt-BR';
 
 

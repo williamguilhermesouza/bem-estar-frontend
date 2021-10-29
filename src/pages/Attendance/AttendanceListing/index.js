@@ -49,7 +49,7 @@ export default function AttendanceListing(props) {
 
   useEffect(() => {
     retrieveData();
-  },[]);
+  });
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 130 },
