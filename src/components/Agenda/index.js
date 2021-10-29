@@ -113,7 +113,6 @@ export default function Agenda() {
           showModal? <Modal clickOutside={() => {setShowModal(false)}} >
             <div className="modal-content">
               <ReactAgendaCtrl items={items} itemColors={colors} selectedCells={selected} Addnew={addNewEvent} edit={editEvent}  />
-
             </div>
         </Modal>:''
       }

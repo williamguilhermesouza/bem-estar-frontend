@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 
 // ########### BASE API URL ##############
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://localhost:3003';
 
 
 //############# USERS ################
