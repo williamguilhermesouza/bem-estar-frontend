@@ -6,7 +6,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {createPatient, updatePatient} from '../../../services/API';
-import ptLocale from 'date-fns/locale/pt-br';
+import ptLocale from 'date-fns/locale/pt-BR';
 
 
 const useStyles = makeStyles(theme => createStyles({
