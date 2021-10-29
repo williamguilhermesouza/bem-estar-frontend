@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { ReactAgenda , ReactAgendaCtrl , guid ,  Modal } from 'react-agenda';
- 
+import { createStyles, makeStyles } from '@material-ui/styles';
 require('moment/locale/pt-br.js'); // this is important for traduction purpose
  
 var colors= {
@@ -11,7 +11,7 @@ var colors= {
  
 var now = new Date();
  
-var items = [
+var books = [
   {
    _id            :guid(),
     name          : 'Meeting , dev staff!',
@@ -29,53 +29,55 @@ var items = [
  
 ];
  
-export default class Agenda extends React.Component {
-  constructor(props){
-  super(props);
-    this.state = {
-      items:items,
-      selected:[],
-      cellHeight:30,
-      showModal:false,
-      locale:"pt-br",
-      rowsPerHour:2,
-      numberOfDays:4,
-      startDate: new Date()
-    }
-    this.handleCellSelection = this.handleCellSelection.bind(this)
-    this.handleItemEdit = this.handleItemEdit.bind(this)
-    this.handleRangeSelection = this.handleRangeSelection.bind(this)
+
+const useStyles = makeStyles(theme => createStyles({
+  root: {
+    table:{
+      width: '800px',
+    },
+  },
+}));
+
+
+export default function Agenda() {
+  let classes = useStyles();
+  const [items, setItems] = useState(books);
+  const [selected, setSelected] = useState([]);
+  const [cellHeight, setCellHeight] = useState(30);
+  const [showModal, setShowModal] = useState(false);
+  const [locale, setLocale] = useState('pt-br');
+  const [rowsPerHour, setRowsPerHour] = useState(2);
+  const [numberOfDays, setNumberOfDays] = useState(4);
+  const [ startDate, setStartDate] = useState(new Date());
+
+  function handleCellSelection(item){
+    console.log('handleCellSelection',item)
   }
- 
-handleCellSelection(item){
-  console.log('handleCellSelection',item)
-}
-handleItemEdit(item){
-  console.log('handleItemEdit', item)
-}
-handleRangeSelection(item){
-  console.log('handleRangeSelection', item)
-}
-  render() {
-    return (
-      <div>
-        <ReactAgenda
-          minDate={now}
-          maxDate={new Date(now.getFullYear(), now.getMonth()+3)}
-          disablePrevButton={false}
-          startDate={this.state.startDate}
-          cellHeight={this.state.cellHeight}
-          locale={this.state.locale}
-          items={this.state.items}
-          numberOfDays={this.state.numberOfDays}
-          rowsPerHour={this.state.rowsPerHour}
-          itemColors={colors}
-          autoScale={false}
-          fixedHeader={true}
-          onItemEdit={this.handleItemEdit.bind(this)}
-          onCellSelect={this.handleCellSelection.bind(this)}
-          onRangeSelection={this.handleRangeSelection.bind(this)}/>
-      </div>
-    );
+  function handleItemEdit(item){
+    console.log('handleItemEdit', item)
   }
+  function handleRangeSelection(item){
+    console.log('handleRangeSelection', item)
+  }
+  return (
+    <div>
+      <ReactAgenda
+        className={classes.root}
+        minDate={now}
+        maxDate={new Date(now.getFullYear(), now.getMonth()+3)}
+        disablePrevButton={false}
+        startDate={startDate}
+        cellHeight={cellHeight}
+        locale={locale}
+        items={items}
+        numberOfDays={numberOfDays}
+        rowsPerHour={rowsPerHour}
+        itemColors={colors}
+        autoScale={false}
+        fixedHeader={true}
+        onItemEdit={handleItemEdit}
+        onCellSelect={handleCellSelection}
+        onRangeSelection={handleRangeSelection}/>
+    </div>
+  );
 }
