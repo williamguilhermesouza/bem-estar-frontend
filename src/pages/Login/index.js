@@ -1,5 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
+import logo from './logo.jpeg';
 
 const useStyles = makeStyles(theme => createStyles({
     login: {
@@ -37,6 +38,7 @@ export default function Login() {
 
     return(
         <div className={classes.login}>
+            <img src={logo} alt="logo" />
             <form>
                 <div className={classes.loginBox}>
                     <div className={classes.loginInputs}>

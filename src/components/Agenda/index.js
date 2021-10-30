@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { ReactAgenda , ReactAgendaCtrl,  Modal } from 'react-agenda';
 import { createStyles, makeStyles } from '@material-ui/styles';
-import { getAgenda, createAgenda } from '../../services/API';
+import { getAgenda, createAgenda, updateAgenda, deleteAgenda } from '../../services/API';
 require('moment/locale/pt-br.js'); // this is important for traduction purpose
 
 const now = new Date();
@@ -68,10 +68,20 @@ export default function Agenda() {
     await createAgenda(newItems);
   }
   
-  function editEvent (_items , item){
+  async function editEvent (_items , item){
     setShowModal(false); 
     setSelected([]);
     setItems(_items);
+    await updateAgenda(item);
+  }
+
+  async function handleItemRemove(_items, item) {
+    console.log(item);
+    const newItems = items.filter(agenda => {
+      return agenda.id !== item.id;
+    });
+    setItems(newItems);
+    await deleteAgenda(item.id);
   }
 
   return (
@@ -94,7 +104,7 @@ export default function Agenda() {
         onChangeDuration={setItems}
         onItemEdit={handleItemEdit}
         onCellSelect={handleCellSelection}
-        onItemRemove={setItems}
+        onItemRemove={handleItemRemove}
         onDateRangeChange={setStartDate}/>
 
       {
