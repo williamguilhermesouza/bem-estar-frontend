@@ -69,3 +69,24 @@ export async function deleteAttendance(id) {
 export async function getAttendanceByPatientId(id) {
     return await axios.get(`${baseUrl}/attendances/patientId/${id}`);
 }
+// ######### AGENDA ############
+export async function getAgenda() {
+    return await axios.get(`${baseUrl}/agenda`);
+}
+
+export async function getAgendaById(id) {
+    return await axios.get(`${baseUrl}/agenda/${id}`);
+}
+
+export async function createAgenda(agenda) {
+    return await axios.post(`${baseUrl}/agenda`, agenda);
+} 
+
+export async function updateAgenda(id, agenda) {
+    return await axios.patch(`${baseUrl}/agenda/${id}`, agenda);
+}
+
+export async function deleteAgenda(id) {
+    return await axios.delete(`${baseUrl}/agenda/${id}`);
+}
+

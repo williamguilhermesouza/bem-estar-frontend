@@ -1,44 +1,18 @@
-import React, {useState} from 'react';
-import { ReactAgenda , ReactAgendaCtrl , guid ,  Modal } from 'react-agenda';
+import React, {useEffect, useState} from 'react';
+import { ReactAgenda , ReactAgendaCtrl,  Modal } from 'react-agenda';
 import { createStyles, makeStyles } from '@material-ui/styles';
+import { getAgenda, createAgenda } from '../../services/API';
 require('moment/locale/pt-br.js'); // this is important for traduction purpose
- 
+
 const now = new Date();
- 
-var books = [
-  {
-   _id            :guid(),
-    name          : 'Meeting , dev staff!',
-    startDateTime : new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 0),
-    endDateTime   : new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0),
-    classes       : 'color-1'
-  },
-  {
-   _id            :guid(),
-    name          : 'Working lunch , Holly',
-    startDateTime : new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 11, 0),
-    endDateTime   : new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 13, 0),
-    classes       : 'color-2 color-3'
-  },
-  {
-    _id            :guid(),
-     name          : 'william e bala juquinha',
-     startDateTime : new Date(now.getFullYear(), now.getMonth(), now.getDate()+2, 11, 0),
-     endDateTime   : new Date(now.getFullYear(), now.getMonth(), now.getDate()+2, 13, 0),
-     classes       : 'color-1 color-3'
-   },
- 
-];
- 
 
 const useStyles = makeStyles(theme => createStyles({
   root: {},
 }));
 
-
 export default function Agenda() {
   let classes = useStyles();
-  const [items, setItems] = useState(books);
+  const [items, setItems] = useState([]);
   const [selected, setSelected] = useState([]);
   const cellHeight = 30;
   const [showModal, setShowModal] = useState(false);
@@ -46,6 +20,20 @@ export default function Agenda() {
   const rowsPerHour = 2;
   const numberOfDays = 4;
   const [startDate, setStartDate] = useState(new Date());
+
+  async function fetchData() {
+    let data = await getAgenda();
+    data = data.data;
+    data.forEach(element => {
+      element.startDateTime = new Date(element.startDateTime);
+      element.endDateTime = new Date(element.endDateTime);
+    });
+    setItems(data);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const colors= {
     'color-1':"rgba(102, 195, 131 , 1)" ,
@@ -73,11 +61,11 @@ export default function Agenda() {
     setShowModal(true);
   }
 
-  function addNewEvent (_items , newItems){
+  async function addNewEvent (_items , newItems){
     setShowModal(false); 
     setSelected([]);
     setItems(_items);
-    setShowModal(false);
+    await createAgenda(newItems);
   }
   
   function editEvent (_items , item){
