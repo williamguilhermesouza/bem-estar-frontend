@@ -1,29 +1,9 @@
-import React from 'react';
-
+import React, {useHistory, useState, useEffect} from 'react';
 import Sidebar from '../../components/Sidebar';
 import { TextField, Container, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createStyles, makeStyles } from '@material-ui/styles';
-
-
-const columns = [
-  { field: 'id', headerName: 'ID', width: 130 },
-  { field: 'patientName', headerName: 'Paciente', width: 200 },
-  { field: 'description', headerName: 'Descrição', width: 200 },
-  { field: 'value', headerName: 'Valor', width: 200},
-];
-
-const rows = [
-  { id: 1, patientName: 'Jon Snow', value: '34559856', description: 'gameofthrones@gmail.com' },
-  { id: 2, patientName: null, value: '34559856', description: 'gameofthrones@gmail.com' },
-  { id: 3, patientName: 'Jaime Lannister', value: '34559856', description: 'gameofthrones@gmail.com' },
-  { id: 4, patientName: 'Arya Stark', value: '-34559856', description: 'gameofthrones@gmail.com' },
-  { id: 5, patientName: 'Daenerys Targaryen', value: '34559856', description: 'gameofthrones@gmail.com' },
-  { id: 6, patientName: 'Melisandre', value: '-34559856', description: 'gameofthrones@gmail.com' },
-  { id: 7, patientName: 'Ferrara Clifford', value: '34559856', description: 'gameofthrones@gmail.com' },
-  { id: 8, patientName: null, value: '-34559856', description: 'gameofthrones@gmail.com' },
-  { id: 9, patientName: 'Harvey Roxie', value: '34559856', description: 'gameofthrones@gmail.com' },
-];
+import { getMovements, getMovement, getPatient } from '../../services/API';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -42,21 +22,78 @@ const useStyles = makeStyles(theme => createStyles({
 
 }));
 
-export default function Attendance() {
+export default function Movements() {
   const classes = useStyles();
+  //const history = useHistory();
+
+  const [movements, setMovements] = useState([]);
+  const [originalMovements, setOriginalMovements] = useState([]); 
+  const [filterField, setFilterField] = useState('');
+
+  useEffect(() => {
+    getMovements().then( 
+      response => {
+        
+        let movs = [];
+        response.data.forEach(async element => {
+          const patient = element.patientId? await getPatient(element.patientId): {name: ''};
+          movs = [...movs, {
+            id: element.id,
+            patientName: patient.name,
+            description: element.description,
+            value: element.value,
+          }]
+        });
+
+        setMovements(movs); 
+        setOriginalMovements(movs);
+        console.log(movs);
+      }
+    )
+  },[setMovements]);
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 130 },
+    { field: 'patientName', headerName: 'Paciente', width: 200 },
+    { field: 'description', headerName: 'Descrição', width: 200 },
+    { field: 'value', headerName: 'Valor', width: 200},
+  ];
+
+  async function handleRowSelection(row) {
+    if (!row[0]) {
+      return
+    }
+    const movement = await getMovement(row[0]);
+    //history.push('/movements/listing', {movement: movement.data});
+  }
+
+  function handleMovementFilter() {
+    setMovements(
+
+      originalMovements.filter(movement => {
+        // must be patientId === filterField
+        return movement.name.includes(filterField)
+      })
+    );
+  }
+
+  function handleFieldChange(e) {
+    setFilterField(e.target.value);
+  }
 
   return(
     <div className={classes.root}>
       <Sidebar />
       <Container maxWidth="xl">
-        <TextField label="Nome do Paciente" className={classes.searchField} />
-        <Button variant="contained" className={classes.userButtons} sx={{marginTop: '5px', marginLeft: '15px'}} href="/movements/patient">Filtrar</Button>
+        <TextField label="Nome do Paciente" className={classes.searchField} value={filterField} onChange={handleFieldChange} />
+        <Button variant="contained" className={classes.userButtons} sx={{marginTop: '5px', marginLeft: '15px'}} href="/movements/patient" onClick={handleMovementFilter}>Filtrar</Button>
       </Container>
         <DataGrid
-          rows={rows}
+          rows={movements}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
+          onSelectionModelChange={handleRowSelection}
         />
     </div>
   );

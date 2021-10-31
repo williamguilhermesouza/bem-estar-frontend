@@ -90,3 +90,23 @@ export async function deleteAgenda(id) {
     return await axios.delete(`${baseUrl}/agenda/${id}`);
 }
 
+// ######### MOVEMENTS ############
+export async function getMovements() {
+    return await axios.get(`${baseUrl}/movements`);
+}
+
+export async function getMovement(id) {
+    return await axios.get(`${baseUrl}/movements/${id}`);
+}
+
+export async function createMovement(movement) {
+    return await axios.post(`${baseUrl}/movements`, movement);
+} 
+
+export async function updateMovement(id, movement) {
+    return await axios.patch(`${baseUrl}/movements/${id}`, movement);
+}
+
+export async function deleteMovement(id) {
+    return await axios.delete(`${baseUrl}/movements/${id}`);
+}
