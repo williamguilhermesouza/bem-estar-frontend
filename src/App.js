@@ -10,6 +10,7 @@ import NewUser from './pages/Users/NewUser';
 import AttendanceListing from './pages/Attendance/AttendanceListing';
 import NewPatient from './pages/Patients/NewPatient';
 import NewAttendance from './pages/Attendance/NewAttendance';
+import NewMovement from './pages/Movements/NewMovement';
 import './App.css';
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/attendance/listing" component={AttendanceListing} />
         <Route path="/attendance" component={Attendance} />
         <Route path="/overview" component={Overview} />
+        <Route path="/movements/new" component={NewMovement} />
         <Route path="/movements" component={Movements} />
       </Switch>
     </BrowserRouter>
