@@ -1,8 +1,9 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Snackbar } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import logo from './logo.jpeg';
 import { useState } from 'react';
-import { login } from '../../services/API';
+import { loginApi } from '../../services/API';
+import { login } from '../../services/auth';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => createStyles({
@@ -43,6 +44,10 @@ export default function Login() {
         email: '',
         password: '',
     });
+    const [openSnack, setOpenSnack] = useState(false);
+    const [snackMessage, setSnackMessage] = useState();
+    const vertical = 'top'; const horizontal = 'right';
+
 
     const handleChange = (event) => {
         const fieldValue = event.target.value;
@@ -56,16 +61,17 @@ export default function Login() {
     const handleSignIn = async e => {
         e.preventDefault();
         const { email, password } = values;
-        if (!email || !password) {
-          console.log('preencha email e senha');
+        if (email === '' || password === '') {
+            setSnackMessage('Preencha e-mail e senha');
+            setOpenSnack(true);
         } else {
           try {
-            const response = await login({ email, password });
-            console.log(response.data.token);
-            login(response.data.token);
-            //history.push("/home");
+            const response = await loginApi({email, password});
+            login(response.data.access_token);
+            history.push("/home");
           } catch (err) {
-            console.log("Houve um problema com o login, verifique suas credenciais. T.T");
+            setSnackMessage('Erro ao realizar login');
+            setOpenSnack(true);
           }
         }
     };
@@ -86,6 +92,14 @@ export default function Login() {
                     </div>
                 </div>
             </form>
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={openSnack}
+                onClose={() => setOpenSnack(false)}
+                autoHideDuration={6000}
+                message={snackMessage}
+                key={vertical + horizontal}
+            />
         </div>
     );
 };

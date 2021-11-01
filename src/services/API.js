@@ -15,6 +15,7 @@ api.interceptors.request.use(async config => {
     return config;
   });
 
+
 //############# USERS ################
 export async function getUsers() {
     return await api.get(`/users`);
@@ -123,6 +124,6 @@ export async function deleteMovement(id) {
 }
 
 // ######### AUTH ###########
-export async function login(email, password) {
-    return await api.post('/auth/login', {email, password});
+export async function loginApi(credentials) {
+    return await api.post('/auth/login', credentials);
 }

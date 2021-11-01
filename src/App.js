@@ -35,14 +35,14 @@ function App() {
         <PrivateRoute path="/home" component={Home} />
         <PrivateRoute path="/patients/new" component={NewPatient} />
         <PrivateRoute path="/patients" component={Patients} />
-        <Route path="/users/new" component={NewUser} />
-        <Route path="/users" component={Users} />
-        <Route path="/attendance/new" component={NewAttendance} />
-        <Route path="/attendance/listing" component={AttendanceListing} />
-        <Route path="/attendance" component={Attendance} />
-        <Route path="/overview" component={Overview} />
-        <Route path="/movements/new" component={NewMovement} />
-        <Route path="/movements" component={Movements} />
+        <PrivateRoute path="/users/new" component={NewUser} />
+        <PrivateRoute path="/users" component={Users} />
+        <PrivateRoute path="/attendance/new" component={NewAttendance} />
+        <PrivateRoute path="/attendance/listing" component={AttendanceListing} />
+        <PrivateRoute path="/attendance" component={Attendance} />
+        <PrivateRoute path="/overview" component={Overview} />
+        <PrivateRoute path="/movements/new" component={NewMovement} />
+        <PrivateRoute path="/movements" component={Movements} />
       </Switch>
     </BrowserRouter>
   );
