@@ -1,112 +1,128 @@
+import { getToken } from "./auth";
 const axios = require('axios').default;
 
 // ########### BASE API URL ##############
-const baseUrl = 'http://localhost:3003';
+const api = axios.create({
+    baseURL: 'http://localhost:3003'
+});
 
+// ########## TOKEN CONFIG ############
+api.interceptors.request.use(async config => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
 
 //############# USERS ################
 export async function getUsers() {
-    return await axios.get(`${baseUrl}/users`);
+    return await api.get(`/users`);
 }
 
 export async function getUser(id) {
-    return await axios.get(`${baseUrl}/users/${id}`);
+    return await api.get(`/users/${id}`);
 }
 
 export async function createUser(user) {
-    return await axios.post(`${baseUrl}/users`, user);
+    return await api.post(`/users`, user);
 } 
 
 export async function updateUser(id, user) {
-    return await axios.patch(`${baseUrl}/users/${id}`, user);
+    return await api.patch(`/users/${id}`, user);
 }
 
 export async function deleteUser(id) {
-    return await axios.delete(`${baseUrl}/users/${id}`);
+    return await api.delete(`/users/${id}`);
 }
 
 // ######### PATIENTS ############
 export async function getPatients() {
-    return await axios.get(`${baseUrl}/patients`);
+    return await api.get(`/patients`);
 }
 
 export async function getPatient(id) {
-    return await axios.get(`${baseUrl}/patients/${id}`);
+    return await api.get(`/patients/${id}`);
 }
 
 export async function createPatient(user) {
-    return await axios.post(`${baseUrl}/patients`, user);
+    return await api.post(`/patients`, user);
 } 
 
 export async function updatePatient(id, user) {
-    return await axios.patch(`${baseUrl}/patients/${id}`, user);
+    return await api.patch(`/patients/${id}`, user);
 }
 
 export async function deletePatient(id) {
-    return await axios.delete(`${baseUrl}/patients/${id}`);
+    return await api.delete(`/patients/${id}`);
 }
 // ######### ATTENDANCE ############
 export async function getAttendances() {
-    return await axios.get(`${baseUrl}/attendances`);
+    return await api.get(`/attendances`);
 }
 
 export async function getAttendance(id) {
-    return await axios.get(`${baseUrl}/attendances/${id}`);
+    return await api.get(`/attendances/${id}`);
 }
 
 export async function createAttendance(attendance) {
-    return await axios.post(`${baseUrl}/attendances`, attendance);
+    return await api.post(`/attendances`, attendance);
 } 
 
 export async function updateAttendance(id, attendance) {
-    return await axios.patch(`${baseUrl}/attendances/${id}`, attendance);
+    return await api.patch(`/attendances/${id}`, attendance);
 }
 
 export async function deleteAttendance(id) {
-    return await axios.delete(`${baseUrl}/attendances/${id}`);
+    return await api.delete(`/attendances/${id}`);
 }
 
 export async function getAttendanceByPatientId(id) {
-    return await axios.get(`${baseUrl}/attendances/patientId/${id}`);
+    return await api.get(`/attendances/patientId/${id}`);
 }
 // ######### AGENDA ############
 export async function getAgenda() {
-    return await axios.get(`${baseUrl}/agenda`);
+    return await api.get(`/agenda`);
 }
 
 export async function getAgendaById(id) {
-    return await axios.get(`${baseUrl}/agenda/${id}`);
+    return await api.get(`/agenda/${id}`);
 }
 
 export async function createAgenda(agenda) {
-    return await axios.post(`${baseUrl}/agenda`, agenda);
+    return await api.post(`/agenda`, agenda);
 } 
 
 export async function updateAgenda(id, agenda) {
-    return await axios.patch(`${baseUrl}/agenda/${id}`, agenda);
+    return await api.patch(`/agenda/${id}`, agenda);
 }
 
 export async function deleteAgenda(id) {
-    return await axios.delete(`${baseUrl}/agenda/${id}`);
+    return await api.delete(`/agenda/${id}`);
 }
 
 // ######### MOVEMENTS ############
 export async function getMovements() {
-    return await axios.get(`${baseUrl}/movements`);
+    return await api.get(`/movements`);
 }
 
 export async function getMovement(id) {
-    return await axios.get(`${baseUrl}/movements/${id}`);
+    return await api.get(`/movements/${id}`);
 }
 
 export async function createMovement(movement) {
-    return await axios.post(`${baseUrl}/movements`, movement);
+    return await api.post(`/movements`, movement);
 } 
 
 export async function updateMovement(id, movement) {
-    return await axios.patch(`${baseUrl}/movements/${id}`, movement);
+    return await api.patch(`/movements/${id}`, movement);
 }
 
 export async function deleteMovement(id) {
-    return await axios.delete(`${baseUrl}/movements/${id}`);
+    return await api.delete(`/movements/${id}`);
+}
+
+// ######### AUTH ###########
+export async function login(email, password) {
+    return await api.post('/auth/login', {email, password});
 }

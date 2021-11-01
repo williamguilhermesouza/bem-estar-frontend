@@ -1,6 +1,6 @@
 import Login from './pages/Login';
 import Home from './pages/Home';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Users from './pages/Users';
 import Patients from './pages/Patients';
 import Attendance from './pages/Attendance';
@@ -12,16 +12,29 @@ import NewPatient from './pages/Patients/NewPatient';
 import NewAttendance from './pages/Attendance/NewAttendance';
 import NewMovement from './pages/Movements/NewMovement';
 import './App.css';
+import { isAuthenticated } from "./services/auth";
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+      )
+    }
+  />
+);
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact={true} component={Login} />
-        <Route path="/home" component={Home} />
-        <Route path="/patients/new" component={NewPatient} />
-        <Route path="/patients" component={Patients} />
+        <PrivateRoute path="/home" component={Home} />
+        <PrivateRoute path="/patients/new" component={NewPatient} />
+        <PrivateRoute path="/patients" component={Patients} />
         <Route path="/users/new" component={NewUser} />
         <Route path="/users" component={Users} />
         <Route path="/attendance/new" component={NewAttendance} />
