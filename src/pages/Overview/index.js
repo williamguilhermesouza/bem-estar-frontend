@@ -1,55 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Sidebar from '../../components/Sidebar';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import {getMovements} from '../../services/API';
 
 
 
 export default function Overview() {
+  const [movements, setMovements] = useState([]);
 
-  const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  useEffect(() => {
+
+    async function prepareData() {
+      const response = await getMovements();
+      const data = response.data;
+      let movs = [];
+      data.forEach(element => {
+        element.createdAt = new Date(element.createdAt).toLocaleDateString("pt-br");
+        movs = [...movs, element];
+        
+      });
+      setMovements(movs);
+      console.log(movs);
+    }
+
+    prepareData();
+  })
 
 
   return(
@@ -58,7 +33,7 @@ export default function Overview() {
       <LineChart
         width={1600}
         height={700}
-        data={data}
+        data={movements}
         margin={{
           top: 5,
           right: 30,
@@ -67,12 +42,11 @@ export default function Overview() {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="createdAt" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
       </LineChart>
     </div>
   );
