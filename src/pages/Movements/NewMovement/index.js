@@ -77,6 +77,7 @@ export default function NewMovement(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
                             <TextField 
+                                required
                                 fullWidth 
                                 label="id do Paciente" 
                                 name="patientId"
@@ -86,6 +87,7 @@ export default function NewMovement(props) {
                         </Grid>
                         <Grid item xs={4}>
                             <TextField 
+                                required
                                 label="Descrição" 
                                 name="description" 
                                 value={values.description}
@@ -94,6 +96,7 @@ export default function NewMovement(props) {
                         </Grid>
                         <Grid item xs={4}>
                             <TextField 
+                                required
                                 label="Valor" 
                                 name="value" 
                                 value={values.value}
