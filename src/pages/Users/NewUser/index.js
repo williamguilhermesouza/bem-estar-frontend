@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => createStyles({
 
 export default function NewUser(props) {
     const classes = useStyles();
-    console.log(props);
     
     let user = {
         name: '',
@@ -43,12 +42,28 @@ export default function NewUser(props) {
         password: '',
     };
 
+    let validation = {
+        name: false,
+        sex: false,
+        phoneNumber: false,
+        streetName: false,
+        streetNumber: false,
+        streetDistrict: false,
+        city: false,
+        state: false,
+        birthDate: false,
+        cpf: false,
+        email: false,
+        password: false,
+    };
+
     if (props.location.state) {
         user = props.location.state.user;
-        console.log(props.location.state.user);
     }
     
     const [values, setValues] = useState(user);
+    const [validationMessage, setValidationMessage] = useState(user);
+    const [invalid, setInvalid] = useState(validation);
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
     const vertical = 'top'; const horizontal = 'right';
@@ -61,10 +76,51 @@ export default function NewUser(props) {
             ...values, 
             [fieldName]: fieldValue,
         });
+
+        validateField(event.target);
     };
+
+    function setValidationAuxiliary(name, valid) {
+        setInvalid({
+            ...invalid, 
+            [name]: valid,
+        });
+    }
+
+    function setValidationMessageAuxiliary(name, message) {
+        setValidationMessage({
+            ...validationMessage, 
+            [name]: message,
+        });
+    }
+
+    function validateField(field) {
+        const value = field.value;
+        const name = field.name;
+
+        switch (name) {
+            case 'email':
+                if (value.includes('@')) {
+                    setValidationAuxiliary(name, false);
+                    setValidationMessageAuxiliary(name, '');
+                } else {
+                    setValidationAuxiliary(name, true);
+                    setValidationMessageAuxiliary(name, 'Campo e-mail deve incluir "@"');
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 
     async function handleSubmit(e) {
         e.preventDefault();
+        let breakVar = false;
+
+        if (breakVar) {
+            return;
+        }
 
         try {
             if (user) {
@@ -92,8 +148,11 @@ export default function NewUser(props) {
                         <Grid item xs={4}>
                             <TextField 
                                 fullWidth 
+                                required
                                 label="Nome Completo" 
                                 name="name"
+                                error={invalid.name}
+                                helperText={validationMessage.name}
                                 value={values.name}
                                 onChange={handleChange}
                             />
@@ -101,19 +160,29 @@ export default function NewUser(props) {
                                 fullWidth 
                                 label="Rua" 
                                 name="streetName"
+                                error={invalid.streetName}
+                                helperText={validationMessage.streetName}
                                 value={values.streetName}
                                 onChange={handleChange}
                             />
                             <TextField 
-                                label="E-mail" 
+                                label="E-mail"
+                                required 
                                 name="email" 
+                                type="email"
+                                error={invalid.email}
+                                helperText={validationMessage.email}
                                 value={values.email}
                                 onChange={handleChange}
                             />
                             <TextField 
                                 label="Senha" 
-                                name="password" 
+                                required
+                                name="password"
+                                type="password" 
                                 sx={{marginLeft: 2}} 
+                                error={invalid.password}
+                                helperText={validationMessage.password}
                                 value={values.password}
                                 onChange={handleChange}
                             />
@@ -123,13 +192,18 @@ export default function NewUser(props) {
                                 className={classes.inputML} 
                                 sx={{width: 150, marginRight: 2}} 
                                 label="CPF" 
+                                required
                                 name="cpf"
                                 value={values.cpf}
+                                error={invalid.cpf}
+                                helperText={validationMessage.cpf}
                                 onChange={handleChange}
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptLocale}>
                                 <DatePicker
                                     label="Data de Nascimento"
+                                    error={invalid.birthDate}
+                                    helperText={validationMessage.birthDate}
                                     value={values.birthDate}
                                     name="birthDate"
                                     onChange={date => {
@@ -144,6 +218,9 @@ export default function NewUser(props) {
                             <TextField 
                                 label="Número" 
                                 name="streetNumber"
+                                type="number"
+                                error={invalid.streetNumber}
+                                helperText={validationMessage.streetNumber}
                                 value={values.streetNumber}
                                 onChange={handleChange} 
                             />
@@ -151,6 +228,8 @@ export default function NewUser(props) {
                                 label="Bairro" 
                                 name="streetDistrict" 
                                 sx={{marginLeft: 2}} 
+                                error={invalid.streetDistrict}
+                                helperText={validationMessage.streetDistrict}
                                 value={values.streetDistrict}
                                 onChange={handleChange}
                             />
@@ -162,6 +241,8 @@ export default function NewUser(props) {
                                 id="sex"
                                 name="sex"
                                 value={values.sex}
+                                error={invalid.sex}
+                                helperText={validationMessage.sex}
                                 onChange={handleChange}
                                 label="Sexo"
                             >
@@ -171,7 +252,10 @@ export default function NewUser(props) {
                             <TextField 
                                 label="Telefone" 
                                 name="phoneNumber" 
+                                type="tel"
                                 sx={{marginLeft: 2}} 
+                                error={invalid.phoneNumber}
+                                helperText={validationMessage.phoneNumber}
                                 value={values.phoneNumber}
                                 onChange={handleChange}
                             />
@@ -179,6 +263,8 @@ export default function NewUser(props) {
                                 label="Cidade" 
                                 name="city" 
                                 value={values.city}
+                                error={invalid.city}
+                                helperText={validationMessage.city}
                                 onChange={handleChange}
                             />
                             <TextField 
@@ -186,6 +272,8 @@ export default function NewUser(props) {
                                 name="state" 
                                 sx={{marginLeft: 2}} 
                                 value={values.state}
+                                error={invalid.state}
+                                helperText={validationMessage.state}
                                 onChange={handleChange}
                             />
                         </Grid>

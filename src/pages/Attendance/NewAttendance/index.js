@@ -78,6 +78,7 @@ export default function NewAttendance(props) {
                         <Grid item xs={4}>
                             <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptLocale}>
                                 <DatePicker
+                                    required
                                     label="Data do atendimento"
                                     value={values.attendanceDate}
                                     name="attendanceDate"
@@ -92,8 +93,12 @@ export default function NewAttendance(props) {
                                 />
                             </LocalizationProvider>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={8}>
                             <TextField 
+                                required
+                                multiline
+                                fullWidth
+                                rows={8}
                                 className={classes.inputML} 
                                 sx={{width: 150, marginRight: 2}} 
                                 label="Procedimentos Realizados" 
@@ -103,9 +108,9 @@ export default function NewAttendance(props) {
                                 disabled={doneProcedures === ''? false:true}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        {/* <Grid item xs={4}>
                             
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                     <Button 
                         variant="contained" 
