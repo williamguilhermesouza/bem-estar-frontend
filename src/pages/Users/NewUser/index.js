@@ -108,6 +108,16 @@ export default function NewUser(props) {
                     setValidationMessageAuxiliary(name, 'Campo e-mail deve incluir "@"');
                 }
                 break;
+            case 'cpf':
+                const re = /[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}/;
+                if (re.test(value)) {
+                    setValidationAuxiliary(name, false);
+                    setValidationMessageAuxiliary(name, '');
+                } else {
+                    setValidationAuxiliary(name, true);
+                    setValidationMessageAuxiliary(name, 'Campo deve seguir o padrão xxx.xxx.xxx-xx, ou apenas números');
+                }
+                break;
             default:
                 break;
         }
