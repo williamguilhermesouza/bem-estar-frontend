@@ -1,4 +1,4 @@
-import { Grid, InputLabel, MenuItem, Select, TextField, Container, Button, Snackbar } from '@mui/material';
+import { Grid, MenuItem, TextField, Container, Button, Snackbar } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import React, {useState} from 'react';
 import Sidebar from '../../../components/Sidebar';
@@ -166,49 +166,6 @@ export default function NewUser(props) {
                                 value={values.name}
                                 onChange={handleChange}
                             />
-                            <TextField 
-                                fullWidth 
-                                label="Rua" 
-                                name="streetName"
-                                error={invalid.streetName}
-                                helperText={validationMessage.streetName}
-                                value={values.streetName}
-                                onChange={handleChange}
-                            />
-                            <TextField 
-                                label="E-mail"
-                                required 
-                                name="email" 
-                                type="email"
-                                error={invalid.email}
-                                helperText={validationMessage.email}
-                                value={values.email}
-                                onChange={handleChange}
-                            />
-                            <TextField 
-                                label="Senha" 
-                                required
-                                name="password"
-                                type="password" 
-                                sx={{marginLeft: 2}} 
-                                error={invalid.password}
-                                helperText={validationMessage.password}
-                                value={values.password}
-                                onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField 
-                                className={classes.inputML} 
-                                sx={{width: 150, marginRight: 2}} 
-                                label="CPF" 
-                                required
-                                name="cpf"
-                                value={values.cpf}
-                                error={invalid.cpf}
-                                helperText={validationMessage.cpf}
-                                onChange={handleChange}
-                            />
                             <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptLocale}>
                                 <DatePicker
                                     label="Data de Nascimento"
@@ -225,15 +182,8 @@ export default function NewUser(props) {
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>
-                            <TextField 
-                                label="Número" 
-                                name="streetNumber"
-                                type="number"
-                                error={invalid.streetNumber}
-                                helperText={validationMessage.streetNumber}
-                                value={values.streetNumber}
-                                onChange={handleChange} 
-                            />
+                            
+                            
                             <TextField 
                                 label="Bairro" 
                                 name="streetDistrict" 
@@ -243,22 +193,61 @@ export default function NewUser(props) {
                                 value={values.streetDistrict}
                                 onChange={handleChange}
                             />
+
+                            <TextField
+                                select
+                                labelId="stateLabel"
+                                id="state"
+                                name="state"
+                                value={values.state}
+                                error={invalid.state}
+                                helperText={validationMessage.state}
+                                onChange={handleChange}
+                                label="Estado"
+                            >
+                                <MenuItem value="estado">Selecione o Estado</MenuItem> 
+                                <MenuItem value="ac">Acre</MenuItem> 
+                                <MenuItem value="al">Alagoas</MenuItem> 
+                                <MenuItem value="am">Amazonas</MenuItem> 
+                                <MenuItem value="ap">Amapá</MenuItem> 
+                                <MenuItem value="ba">Bahia</MenuItem> 
+                                <MenuItem value="ce">Ceará</MenuItem> 
+                                <MenuItem value="df">Distrito Federal</MenuItem> 
+                                <MenuItem value="es">Espírito Santo</MenuItem> 
+                                <MenuItem value="go">Goiás</MenuItem> 
+                                <MenuItem value="ma">Maranhão</MenuItem> 
+                                <MenuItem value="mt">Mato Grosso</MenuItem> 
+                                <MenuItem value="ms">Mato Grosso do Sul</MenuItem> 
+                                <MenuItem value="mg">Minas Gerais</MenuItem> 
+                                <MenuItem value="pa">Pará</MenuItem> 
+                                <MenuItem value="pb">Paraíba</MenuItem> 
+                                <MenuItem value="pr">Paraná</MenuItem> 
+                                <MenuItem value="pe">Pernambuco</MenuItem> 
+                                <MenuItem value="pi">Piauí</MenuItem> 
+                                <MenuItem value="rj">Rio de Janeiro</MenuItem> 
+                                <MenuItem value="rn">Rio Grande do Norte</MenuItem> 
+                                <MenuItem value="ro">Rondônia</MenuItem> 
+                                <MenuItem value="rs">Rio Grande do Sul</MenuItem> 
+                                <MenuItem value="rr">Roraima</MenuItem> 
+                                <MenuItem value="sc">Santa Catarina</MenuItem> 
+                                <MenuItem value="se">Sergipe</MenuItem> 
+                                <MenuItem value="sp">São Paulo</MenuItem> 
+                                <MenuItem value="to">Tocantins</MenuItem> 
+                            </TextField>
+                            
                         </Grid>
                         <Grid item xs={4}>
-                            <InputLabel id="sexLabel" sx={{marginTop: -3 }}>Sexo</InputLabel>
-                            <Select
-                                labelId="sexLabel"
-                                id="sex"
-                                name="sex"
-                                value={values.sex}
-                                error={invalid.sex}
-                                helperText={validationMessage.sex}
+                            <TextField 
+                                className={classes.inputML} 
+                                sx={{width: 150, marginRight: 2}} 
+                                label="CPF" 
+                                required
+                                name="cpf"
+                                value={values.cpf}
+                                error={invalid.cpf}
+                                helperText={validationMessage.cpf}
                                 onChange={handleChange}
-                                label="Sexo"
-                            >
-                                <MenuItem value="Masculino">Masculino</MenuItem>
-                                <MenuItem value="Feminino">Feminino</MenuItem>
-                            </Select>
+                            />
                             <TextField 
                                 label="Telefone" 
                                 name="phoneNumber" 
@@ -270,6 +259,52 @@ export default function NewUser(props) {
                                 onChange={handleChange}
                             />
                             <TextField 
+                                label="Número" 
+                                name="streetNumber"
+                                type="number"
+                                error={invalid.streetNumber}
+                                helperText={validationMessage.streetNumber}
+                                value={values.streetNumber}
+                                onChange={handleChange} 
+                            />
+                            <TextField 
+                                label="E-mail"
+                                required 
+                                name="email" 
+                                type="email"
+                                error={invalid.email}
+                                helperText={validationMessage.email}
+                                value={values.email}
+                                onChange={handleChange}
+                            />
+                            
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                select
+                                labelId="sexLabel"
+                                id="sex"
+                                name="sex"
+                                value={values.sex}
+                                error={invalid.sex}
+                                helperText={validationMessage.sex}
+                                onChange={handleChange}
+                                label="Sexo"
+                            >
+                                <MenuItem value="Masculino">Masculino</MenuItem>
+                                <MenuItem value="Feminino">Feminino</MenuItem>
+                            </TextField>
+                            <TextField 
+                                fullWidth 
+                                label="Rua" 
+                                name="streetName"
+                                error={invalid.streetName}
+                                helperText={validationMessage.streetName}
+                                value={values.streetName}
+                                onChange={handleChange}
+                            />
+                            
+                            <TextField 
                                 label="Cidade" 
                                 name="city" 
                                 value={values.city}
@@ -278,14 +313,30 @@ export default function NewUser(props) {
                                 onChange={handleChange}
                             />
                             <TextField 
-                                label="Estado" 
-                                name="state" 
-                                sx={{marginLeft: 2}} 
-                                value={values.state}
-                                error={invalid.state}
-                                helperText={validationMessage.state}
+                                label="Senha" 
+                                required
+                                name="password"
+                                type="password" 
+                                error={invalid.password}
+                                helperText={validationMessage.password}
+                                value={values.password}
                                 onChange={handleChange}
                             />
+                            <TextField 
+                                label="Repita a senha" 
+                                required
+                                type="password" 
+                                onChange={e =>{
+                                    if (e.target.value === values.password) {
+                                        setValidationAuxiliary('password', false);
+                                        setValidationMessageAuxiliary('password', '');
+                                    } else {
+                                        setValidationAuxiliary('password', true);
+                                        setValidationMessageAuxiliary('password', 'As senhas devem ser iguais');
+                                    }
+                                }}
+                            />
+                            
                         </Grid>
                     </Grid>
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
