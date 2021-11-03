@@ -31,13 +31,13 @@ export default function Overview() {
     <div className="overview">
       <Sidebar />
       <LineChart
-        width={1600}
-        height={700}
+        width={1200}
+        height={475}
         data={movements}
         margin={{
           top: 5,
           right: 30,
-          left: 400,
+          left: 100,
           bottom: 5,
         }}
       >
