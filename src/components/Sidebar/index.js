@@ -22,10 +22,8 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import HealingIcon from '@mui/icons-material/Healing';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-
-
-
-
+import { Button } from '@mui/material';
+import {logout} from '../../services/auth';
 
 const drawerWidth = 240;
 
@@ -92,6 +90,11 @@ export default function Sidebar() {
     history.push(destination);
   }
 
+  function handleLogout() {
+    logout();
+    navigate('/');
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -125,6 +128,7 @@ export default function Sidebar() {
         open={open}
       >
         <DrawerHeader>
+          <Button variant="contained" color="error" sx={{marginRight: '25px'}} onClick={handleLogout}>Logout</Button>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
