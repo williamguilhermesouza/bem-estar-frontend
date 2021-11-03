@@ -1,4 +1,5 @@
 import { getToken } from "./auth";
+import { encryptPassword } from "./encryption";
 const axios = require('axios').default;
 
 // ########### BASE API URL ##############
@@ -26,6 +27,9 @@ export async function getUser(id) {
 }
 
 export async function createUser(user) {
+    const {password, ...values} = user;
+    const hashedPassword = encryptPassword(password);
+    user = {...values, password: hashedPassword};
     return await api.post(`/users`, user);
 } 
 
@@ -125,5 +129,9 @@ export async function deleteMovement(id) {
 
 // ######### AUTH ###########
 export async function loginApi(credentials) {
+    const {password, ...values } = credentials;
+    const hashedPassword = encryptPassword(password);
+    credentials = {...values, password: hashedPassword};
+    console.log(credentials);
     return await api.post('/auth/login', credentials);
 }

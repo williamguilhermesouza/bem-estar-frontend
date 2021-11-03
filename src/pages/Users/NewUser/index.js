@@ -133,7 +133,7 @@ export default function NewUser(props) {
         }
 
         try {
-            if (user) {
+            if (user.name !== '') {
                 await updateUser(values.id, values);
             } else {
                 await createUser(values);
