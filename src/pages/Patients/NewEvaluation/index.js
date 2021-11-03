@@ -5,7 +5,7 @@ import Sidebar from '../../../components/Sidebar';
 import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {createPatient, updatePatient} from '../../../services/API';
+import {createUser, updateUser} from '../../../services/API';
 import ptLocale from 'date-fns/locale/pt-BR';
 
 
@@ -17,16 +17,17 @@ const useStyles = makeStyles(theme => createStyles({
         },
     },
     inputML: {
+        margin: 4,
     },
     sexInput: {
+        marginTop: -4,
     },
 }));
 
-export default function NewPatient(props) {
+export default function NewEvaluation(props) {
     const classes = useStyles();
-    console.log(props);
     
-    let patient = {
+    let evaluation = {
         name: '',
         sex: '',
         phoneNumber: '',
@@ -38,64 +39,31 @@ export default function NewPatient(props) {
         birthDate: null,
         cpf: '',
         email: '',
-        color: '',
-        civilState: "",
-        religion: "",
-        scholarship: "",
-        profession: "",
-        naturality: "",
-        weight: '',
-        height: '',
-        currentDiseaseHistoric: "",
-        associateDiseases: "",
-        pastDiseases: "",
-        familyHistoric: "",
-        lifeHabits: "",
-        clinicalDiagnosis: "",
-        mainComplain: "",
-        medication: "",
-        mobility: "",
-        consciousState: "",
-        skinAndMucous: "",
-        accessWays: "",
-        thoraxFormat: "",
-        ventilationType: "",
-        ventilationMuscularPattern: "",
-        ventilationRhythm: "",
-        abdomen: "",
-        signals: "",
-        symptoms: "",
-        thoracicMobility: "",
-        lungExpansion: "",
-        respiratoryFrequency: '',
-        cardiacFrequency: '',
-        saturation: '',
-        arterialPressure: '',
-        temperature: '',
-        lungHearing: "",
-        cough: "",
-        secretion: "",
-        ventilationMode: "",
-        tonus: "",
-        reflexesAndReaction: "",
-        muscularStrength: "",
-        sensibility: "",
-        motorControl: "",
-        complimentaryExams: "",
-        functionalKineticDiagnosis: "",
-        problem: "",
-        target: "",
-        conduct: ""
+        password: '',
+    };
+
+    let validation = {
+        name: false,
+        sex: false,
+        phoneNumber: false,
+        streetName: false,
+        streetNumber: false,
+        streetDistrict: false,
+        city: false,
+        state: false,
+        birthDate: false,
+        cpf: false,
+        email: false,
+        password: false,
     };
 
     if (props.location.state) {
-        patient = props.location.state.patient;
-        console.log(props.location.state.patient);
+        evaluation = props.location.state.evaluation;
     }
     
-    const [values, setValues] = useState(patient);
-    const [validationMessage, setValidationMessage] = useState(patient);
-    const [invalid, setInvalid] = useState(patient);
+    const [values, setValues] = useState(evaluation);
+    const [validationMessage, setValidationMessage] = useState(evaluation);
+    const [invalid, setInvalid] = useState(validation);
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
     const vertical = 'top'; const horizontal = 'right';
@@ -126,7 +94,6 @@ export default function NewPatient(props) {
         });
     }
 
-
     function validateField(field) {
         const value = field.value;
         const name = field.name;
@@ -156,14 +123,20 @@ export default function NewPatient(props) {
         }
     }
 
+
     async function handleSubmit(e) {
         e.preventDefault();
+        let breakVar = false;
+
+        if (breakVar) {
+            return;
+        }
 
         try {
-            if (patient.name !== '') {
-                await updatePatient(values.id, values);
+            if (evaluation.name !== '') {
+                await updateUser(values.id, values);
             } else {
-                await createPatient(values);
+                await createUser(values);
             }
             setSnackMessage('Operação realizada com sucesso!');
         } catch {
@@ -176,13 +149,13 @@ export default function NewPatient(props) {
 
     return(
         
-        <div className="new-patient">
+        <div className="new-user">
             <Sidebar />
             <Container maxWidth="xl">
-                <p>Novo Paciente</p>
+                <p>Novo Usuário</p>
                 <form method="POST" onSubmit={handleSubmit} className={classes.root}>
                     <Grid container spacing={2}>
-                    <Grid item xs={4}>
+                        <Grid item xs={4}>
                             <TextField 
                                 fullWidth 
                                 required
@@ -261,22 +234,7 @@ export default function NewPatient(props) {
                                 <MenuItem value="sp">São Paulo</MenuItem> 
                                 <MenuItem value="to">Tocantins</MenuItem> 
                             </TextField>
-                            <TextField 
-                                label="Cor" 
-                                name="color" 
-                                sx={{marginLeft: 2}} 
-                                value={values.color}
-                                onChange={handleChange}
-                            />
                             
-                            <TextField 
-                                label="Peso" 
-                                name="weight"
-                                type="number" 
-                                sx={{marginLeft: 2}} 
-                                value={values.weight}
-                                onChange={handleChange}
-                            />
                         </Grid>
                         <Grid item xs={4}>
                             <TextField 
@@ -310,26 +268,16 @@ export default function NewPatient(props) {
                                 onChange={handleChange} 
                             />
                             <TextField 
-                                label="Religião" 
-                                name="religion" 
-                                sx={{marginLeft: 2}} 
-                                value={values.religion}
+                                label="E-mail"
+                                required 
+                                name="email" 
+                                type="email"
+                                error={invalid.email}
+                                helperText={validationMessage.email}
+                                value={values.email}
                                 onChange={handleChange}
                             />
-                            <TextField 
-                                label="Naturalidade" 
-                                name="naturality" 
-                                sx={{marginLeft: 2}} 
-                                value={values.naturality}
-                                onChange={handleChange}
-                            />
-                            <TextField 
-                                label="Altura" 
-                                name="height"
-                                type="number" 
-                                value={values.height}
-                                onChange={handleChange}
-                            />
+                            
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
@@ -365,35 +313,34 @@ export default function NewPatient(props) {
                                 onChange={handleChange}
                             />
                             <TextField 
-                                label="Escolaridade" 
-                                name="scholarship" 
-                                value={values.scholarship}
+                                label="Senha" 
+                                required
+                                name="password"
+                                type="password" 
+                                error={invalid.password}
+                                helperText={validationMessage.password}
+                                value={values.password}
                                 onChange={handleChange}
                             />
                             <TextField 
-                                label="Profissão" 
-                                name="profession" 
-                                sx={{marginLeft: 2}} 
-                                value={values.profession}
-                                onChange={handleChange}
-                            />
-                            <TextField 
-                                label="E-mail"
-                                required 
-                                name="email" 
-                                type="email"
-                                error={invalid.email}
-                                helperText={validationMessage.email}
-                                value={values.email}
-                                onChange={handleChange}
+                                label="Repita a senha" 
+                                required
+                                type="password" 
+                                onChange={e =>{
+                                    if (e.target.value === values.password) {
+                                        setValidationAuxiliary('password', false);
+                                        setValidationMessageAuxiliary('password', '');
+                                    } else {
+                                        setValidationAuxiliary('password', true);
+                                        setValidationMessageAuxiliary('password', 'As senhas devem ser iguais');
+                                    }
+                                }}
                             />
                             
                         </Grid>
                     </Grid>
-
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
                     <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
-                    <Button variant="contained" color="success" sx={{margin: "20px"}} >Avaliação</Button>
                 </form>
                 <Snackbar
                     anchorOrigin={{ vertical, horizontal }}

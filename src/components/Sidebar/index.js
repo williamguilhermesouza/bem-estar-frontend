@@ -163,17 +163,17 @@ export default function Sidebar() {
         </List>
         <Divider />
         <List>
+        <ListItem button onClick={() => navigate('/movements')}>
+            <ListItemIcon>
+              <SyncAltIcon />
+            </ListItemIcon>
+            <ListItemText primary="Movimentação" />
+          </ListItem>
           <ListItem button onClick={() => navigate('/overview')}>
             <ListItemIcon>
               <AttachMoneyIcon />
             </ListItemIcon>
             <ListItemText primary="Resumo Financeiro" />
-          </ListItem>
-          <ListItem button onClick={() => navigate('/movements')}>
-            <ListItemIcon>
-              <SyncAltIcon />
-            </ListItemIcon>
-            <ListItemText primary="Movimentação" />
           </ListItem>
         </List>
       </Drawer>

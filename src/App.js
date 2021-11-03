@@ -13,6 +13,7 @@ import NewAttendance from './pages/Attendance/NewAttendance';
 import NewMovement from './pages/Movements/NewMovement';
 import './App.css';
 import { isAuthenticated } from "./services/auth";
+import NewEvaluation from './pages/Patients/NewEvaluation';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -33,6 +34,7 @@ function App() {
       <Switch>
         <Route path="/" exact={true} component={Login} />
         <PrivateRoute path="/home" component={Home} />
+        <PrivateRoute path="/evaluation/new" component={NewEvaluation} />
         <PrivateRoute path="/patients/new" component={NewPatient} />
         <PrivateRoute path="/patients" component={Patients} />
         <PrivateRoute path="/users/new" component={NewUser} />
