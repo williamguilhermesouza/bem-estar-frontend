@@ -7,6 +7,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {createPatient, updatePatient} from '../../../services/API';
 import ptLocale from 'date-fns/locale/pt-BR';
+import { useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles(theme => createStyles({
@@ -43,59 +44,43 @@ export default function NewPatient(props) {
         religion: "",
         scholarship: "",
         profession: "",
-        naturality: "",
+        placeOfBirth: "",
         weight: '',
         height: '',
-        currentDiseaseHistoric: "",
-        associateDiseases: "",
-        pastDiseases: "",
-        familyHistoric: "",
-        lifeHabits: "",
-        clinicalDiagnosis: "",
-        mainComplain: "",
-        medication: "",
-        mobility: "",
-        consciousState: "",
-        skinAndMucous: "",
-        accessWays: "",
-        thoraxFormat: "",
-        ventilationType: "",
-        ventilationMuscularPattern: "",
-        ventilationRhythm: "",
-        abdomen: "",
-        signals: "",
-        symptoms: "",
-        thoracicMobility: "",
-        lungExpansion: "",
-        respiratoryFrequency: '',
-        cardiacFrequency: '',
-        saturation: '',
-        arterialPressure: '',
-        temperature: '',
-        lungHearing: "",
-        cough: "",
-        secretion: "",
-        ventilationMode: "",
-        tonus: "",
-        reflexesAndReaction: "",
-        muscularStrength: "",
-        sensibility: "",
-        motorControl: "",
-        complimentaryExams: "",
-        functionalKineticDiagnosis: "",
-        problem: "",
-        target: "",
-        conduct: ""
     };
+
+    let validation = {
+        name: false,
+        sex: false,
+        phoneNumber: false,
+        streetName: false,
+        streetNumber: false,
+        streetDistrict: false,
+        city: false,
+        state: false,
+        birthDate: false,
+        cpf: false,
+        email: false,
+        color: false,
+        civilState: false,
+        religion: false,
+        scholarship: false,
+        profession: false,
+        placeOfBirth: false,
+        weight: false,
+        height: false,
+    };
+
 
     if (props.location.state) {
         patient = props.location.state.patient;
         console.log(props.location.state.patient);
     }
     
+    const history = useHistory();
     const [values, setValues] = useState(patient);
     const [validationMessage, setValidationMessage] = useState(patient);
-    const [invalid, setInvalid] = useState(patient);
+    const [invalid, setInvalid] = useState(validation);
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
     const vertical = 'top'; const horizontal = 'right';
@@ -173,16 +158,18 @@ export default function NewPatient(props) {
         setOpenSnack(true);
     }
 
+    function handleNewEvaluation() {
+        history.push('/evaluation/new');
+    }
 
     return(
-        
         <div className="new-patient">
             <Sidebar />
             <Container maxWidth="xl">
                 <p>Novo Paciente</p>
                 <form method="POST" onSubmit={handleSubmit} className={classes.root}>
                     <Grid container spacing={2}>
-                    <Grid item xs={4}>
+                        <Grid item xs={4}>
                             <TextField 
                                 fullWidth 
                                 required
@@ -195,6 +182,7 @@ export default function NewPatient(props) {
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptLocale}>
                                 <DatePicker
+                                    required
                                     label="Data de Nascimento"
                                     error={invalid.birthDate}
                                     helperText={validationMessage.birthDate}
@@ -210,8 +198,8 @@ export default function NewPatient(props) {
                                 />
                             </LocalizationProvider>
                             
-                            
                             <TextField 
+                                required
                                 label="Bairro" 
                                 name="streetDistrict" 
                                 sx={{marginLeft: 2}} 
@@ -223,6 +211,7 @@ export default function NewPatient(props) {
 
                             <TextField
                                 select
+                                required
                                 labelId="stateLabel"
                                 id="state"
                                 name="state"
@@ -263,18 +252,24 @@ export default function NewPatient(props) {
                             </TextField>
                             <TextField 
                                 label="Cor" 
+                                required
                                 name="color" 
                                 sx={{marginLeft: 2}} 
                                 value={values.color}
+                                error={invalid.color}
+                                helperText={validationMessage.color}
                                 onChange={handleChange}
                             />
                             
                             <TextField 
                                 label="Peso" 
+                                required
                                 name="weight"
                                 type="number" 
                                 sx={{marginLeft: 2}} 
                                 value={values.weight}
+                                error={invalid.weight}
+                                helperText={validationMessage.weight}
                                 onChange={handleChange}
                             />
                         </Grid>
@@ -292,6 +287,7 @@ export default function NewPatient(props) {
                             />
                             <TextField 
                                 label="Telefone" 
+                                required
                                 name="phoneNumber" 
                                 type="tel"
                                 sx={{marginLeft: 2}} 
@@ -302,6 +298,7 @@ export default function NewPatient(props) {
                             />
                             <TextField 
                                 label="Número" 
+                                required
                                 name="streetNumber"
                                 type="number"
                                 error={invalid.streetNumber}
@@ -311,20 +308,29 @@ export default function NewPatient(props) {
                             />
                             <TextField 
                                 label="Religião" 
+                                required
                                 name="religion" 
                                 sx={{marginLeft: 2}} 
                                 value={values.religion}
+                                error={invalid.religion}
+                                helperText={validationMessage.religion}
                                 onChange={handleChange}
                             />
                             <TextField 
-                                label="Naturalidade" 
-                                name="naturality" 
+                                label="Naturalidade"
+                                required 
+                                name="placeOfBirth" 
                                 sx={{marginLeft: 2}} 
-                                value={values.naturality}
+                                error={invalid.placeOfBirth}
+                                helperText={validationMessage.placeOfBirth}
+                                value={values.placeOfBirth}
                                 onChange={handleChange}
                             />
                             <TextField 
-                                label="Altura" 
+                                label="Altura"
+                                required
+                                error={invalid.height}
+                                helperText={validationMessage.height} 
                                 name="height"
                                 type="number" 
                                 value={values.height}
@@ -334,6 +340,7 @@ export default function NewPatient(props) {
                         <Grid item xs={4}>
                             <TextField
                                 select
+                                required
                                 labelId="sexLabel"
                                 id="sex"
                                 name="sex"
@@ -349,6 +356,7 @@ export default function NewPatient(props) {
                             <TextField 
                                 fullWidth 
                                 label="Rua" 
+                                required
                                 name="streetName"
                                 error={invalid.streetName}
                                 helperText={validationMessage.streetName}
@@ -359,6 +367,7 @@ export default function NewPatient(props) {
                             <TextField 
                                 label="Cidade" 
                                 name="city" 
+                                required
                                 value={values.city}
                                 error={invalid.city}
                                 helperText={validationMessage.city}
@@ -366,6 +375,9 @@ export default function NewPatient(props) {
                             />
                             <TextField 
                                 label="Escolaridade" 
+                                error={invalid.scholarship}
+                                helperText={validationMessage.scholarship}
+                                required
                                 name="scholarship" 
                                 value={values.scholarship}
                                 onChange={handleChange}
@@ -373,6 +385,9 @@ export default function NewPatient(props) {
                             <TextField 
                                 label="Profissão" 
                                 name="profession" 
+                                required
+                                error={invalid.profession}
+                                helperText={validationMessage.profession}
                                 sx={{marginLeft: 2}} 
                                 value={values.profession}
                                 onChange={handleChange}
@@ -393,7 +408,7 @@ export default function NewPatient(props) {
 
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
                     <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
-                    <Button variant="contained" color="success" sx={{margin: "20px"}} >Avaliação</Button>
+                    <Button variant="contained" color="success" sx={{margin: "20px"}} onClick={handleNewEvaluation}>Avaliação</Button>
                 </form>
                 <Snackbar
                     anchorOrigin={{ vertical, horizontal }}
