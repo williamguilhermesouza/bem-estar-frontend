@@ -129,9 +129,5 @@ export async function deleteMovement(id) {
 
 // ######### AUTH ###########
 export async function loginApi(credentials) {
-    const {password, ...values } = credentials;
-    const hashedPassword = encryptPassword(password);
-    credentials = {...values, password: hashedPassword};
-    console.log(credentials);
     return await api.post('/auth/login', credentials);
 }
