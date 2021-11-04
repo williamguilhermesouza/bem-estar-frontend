@@ -143,12 +143,12 @@ export default function NewPatient(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
+        let patientReturn;
         try {
             if (patient.name !== '') {
-                await updatePatient(values.id, values);
+                patientReturn = await updatePatient(values.id, values);
             } else {
-                await createPatient(values);
+                patientReturn = await createPatient(values);
             }
             setSnackMessage('Operação realizada com sucesso!');
         } catch {
@@ -156,10 +156,14 @@ export default function NewPatient(props) {
         }
 
         setOpenSnack(true);
+        return patientReturn;
     }
 
-    function handleNewEvaluation() {
-        history.push('/evaluation/new');
+    function handleNewEvaluation(e) {
+        let patientReturn = handleSubmit(e);
+        if (patientReturn) {
+            history.push('/evaluation/new',{patient: patientReturn});
+        }
     }
 
     return(
