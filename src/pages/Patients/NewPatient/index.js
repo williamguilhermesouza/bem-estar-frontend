@@ -221,7 +221,6 @@ export default function NewPatient(props) {
                                 onChange={handleChange}
                                 label="Estado"
                             >
-                                <MenuItem value="estado">Selecione o Estado</MenuItem> 
                                 <MenuItem value="ac">Acre</MenuItem> 
                                 <MenuItem value="al">Alagoas</MenuItem> 
                                 <MenuItem value="am">Amazonas</MenuItem> 
@@ -374,6 +373,7 @@ export default function NewPatient(props) {
                                 onChange={handleChange}
                             />
                             <TextField 
+                                select
                                 label="Escolaridade" 
                                 error={invalid.scholarship}
                                 helperText={validationMessage.scholarship}
@@ -381,7 +381,13 @@ export default function NewPatient(props) {
                                 name="scholarship" 
                                 value={values.scholarship}
                                 onChange={handleChange}
-                            />
+                            >
+                                <MenuItem value="Ensino fundamental incompleto">Ensino fundamental incompleto</MenuItem>
+                                <MenuItem value="Ensino fundamental completo">Ensino fundamental completo</MenuItem>
+                                <MenuItem value="Ensino médio completo">ensino médio completo</MenuItem>
+                                <MenuItem value="Ensino superior incompleto">ensino superior incompleto</MenuItem>
+                                <MenuItem value="Ensino superior completo">ensino superior completo</MenuItem>
+                            </TextField>
                             <TextField 
                                 label="Profissão" 
                                 name="profession" 

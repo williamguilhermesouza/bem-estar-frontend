@@ -126,11 +126,6 @@ export default function NewUser(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        let breakVar = false;
-
-        if (breakVar) {
-            return;
-        }
 
         try {
             if (user.name !== '') {

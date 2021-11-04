@@ -1,13 +1,8 @@
-import { Grid, MenuItem, TextField, Container, Button, Snackbar } from '@mui/material';
+import { Grid, TextField, Container, Button, Snackbar, Tabs, Tab } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import React, {useState} from 'react';
 import Sidebar from '../../../components/Sidebar';
-import DatePicker from '@mui/lab/DatePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {createUser, updateUser} from '../../../services/API';
-import ptLocale from 'date-fns/locale/pt-BR';
-
 
 const useStyles = makeStyles(theme => createStyles({
     root: {
@@ -71,18 +66,46 @@ export default function NewEvaluation(props) {
     };
 
     let validation = {
-        name: false,
-        sex: false,
-        phoneNumber: false,
-        streetName: false,
-        streetNumber: false,
-        streetDistrict: false,
-        city: false,
-        state: false,
-        birthDate: false,
-        cpf: false,
-        email: false,
-        password: false,
+        currentDiseaseHistoric: false,
+        associateDiseases: false,
+        pastDiseases: false,
+        familyHistoric: false,
+        lifeHabits: false,
+        clinicalDiagnosis: false,
+        mainComplain: false,
+        medication: false,
+        mobility: false,
+        consciousState: false,
+        skinAndMucous: false,
+        accessWays: false,
+        thoraxFormat: false,
+        ventilationType: false,
+        ventilationMuscularPattern: false,
+        ventilationRhythm: false,
+        abdomen: false,
+        signals: false,
+        symptoms: false,
+        thoracicMobility: false,
+        lungExpansion: false,
+        respiratoryFrequency: false,
+        cardiacFrequency: false,
+        saturation: false,
+        arterialPressure: false,
+        temperature: false,
+        lungHearing: false,
+        cough: false,
+        secretion: false,
+        ventilationMode: false,
+        tonus: false,
+        reflexesAndReaction: false,
+        muscularStrength: false,
+        sensibility: false,
+        motorControl: false,
+        complimentaryExams: false,
+        functionalKineticDiagnosis: false,
+        problem: false,
+        target: false,
+        conduct: false
     };
 
     if (props.location.state) {
@@ -94,6 +117,7 @@ export default function NewEvaluation(props) {
     const [invalid, setInvalid] = useState(validation);
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
+    const [tab, setTab] = useState(0);
     const vertical = 'top'; const horizontal = 'right';
 
 
@@ -154,11 +178,6 @@ export default function NewEvaluation(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        let breakVar = false;
-
-        if (breakVar) {
-            return;
-        }
 
         try {
             if (evaluation.name !== '') {
@@ -174,202 +193,406 @@ export default function NewEvaluation(props) {
         setOpenSnack(true);
     }
 
+    const handleTabChange = (event, newValue) => {
+        setTab(newValue);
+      };
 
     return(
-        
-        <div className="new-user">
+        <div className="new-evaluation">
             <Sidebar />
+            <Tabs value={tab} onChange={handleTabChange} centered>
+                <Tab value={0} label="Fisioterapêutica" />
+                <Tab value={1} label="RPG" />
+            </Tabs>
             <Container maxWidth="xl">
-                <p>Novo Usuário</p>
+                <p>Nova Avaliação</p>
+                
+                { tab === 0 &&
                 <form method="POST" onSubmit={handleSubmit} className={classes.root}>
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
                             <TextField 
-                                fullWidth 
-                                required
-                                label="Nome Completo" 
-                                name="name"
-                                error={invalid.name}
-                                helperText={validationMessage.name}
-                                value={values.name}
-                                onChange={handleChange}
-                            />
-                            <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptLocale}>
-                                <DatePicker
-                                    label="Data de Nascimento"
-                                    error={invalid.birthDate}
-                                    helperText={validationMessage.birthDate}
-                                    value={values.birthDate}
-                                    name="birthDate"
-                                    onChange={date => {
-                                        setValues({
-                                            ...values, 
-                                            birthDate: date,
-                                        });
-                                    }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                            
-                            
-                            <TextField 
-                                label="Bairro" 
-                                name="streetDistrict" 
+                                label="Histórico Atual de Doença" 
+                                name="currentDiseaseHistoric" 
                                 sx={{marginLeft: 2}} 
-                                error={invalid.streetDistrict}
-                                helperText={validationMessage.streetDistrict}
-                                value={values.streetDistrict}
+                                value={values.currentDiseaseHistoric}
                                 onChange={handleChange}
+                                error={invalid.currentDiseaseHistoric}
+                                helperText={validationMessage.currentDiseaseHistoric}
+                            />
+                            <TextField 
+                                label="Doenças Associadas" 
+                                name="associateDiseases" 
+                                sx={{marginLeft: 2}} 
+                                value={values.associateDiseases}
+                                onChange={handleChange}
+                                error={invalid.associateDiseases}
+                                helperText={validationMessage.associateDiseases}
+                            />
+                            <TextField 
+                                label="Doenças Passadas" 
+                                name="pastDiseases" 
+                                sx={{marginLeft: 2}} 
+                                value={values.pastDiseases}
+                                onChange={handleChange}
+                                error={invalid.pastDiseases}
+                                helperText={validationMessage.pastDiseases}
+                            />
+                            <TextField 
+                                label="Histórico Familiar" 
+                                name="familyHistoric" 
+                                value={values.familyHistoric}
+                                onChange={handleChange}
+                                error={invalid.familyHistoric}
+                                helperText={validationMessage.familyHistoric}
+                            />
+                        
+                            <TextField 
+                                label="Hábitos" 
+                                name="lifeHabits" 
+                                sx={{marginLeft: 2}} 
+                                value={values.lifeHabits}
+                                onChange={handleChange}
+                                error={invalid.lifeHabits}
+                                helperText={validationMessage.lifeHabits}
                             />
 
-                            <TextField
-                                select
-                                labelId="stateLabel"
-                                id="state"
-                                name="state"
-                                value={values.state}
-                                error={invalid.state}
-                                helperText={validationMessage.state}
-                                onChange={handleChange}
-                                label="Estado"
-                            >
-                                <MenuItem value="estado">Selecione o Estado</MenuItem> 
-                                <MenuItem value="ac">Acre</MenuItem> 
-                                <MenuItem value="al">Alagoas</MenuItem> 
-                                <MenuItem value="am">Amazonas</MenuItem> 
-                                <MenuItem value="ap">Amapá</MenuItem> 
-                                <MenuItem value="ba">Bahia</MenuItem> 
-                                <MenuItem value="ce">Ceará</MenuItem> 
-                                <MenuItem value="df">Distrito Federal</MenuItem> 
-                                <MenuItem value="es">Espírito Santo</MenuItem> 
-                                <MenuItem value="go">Goiás</MenuItem> 
-                                <MenuItem value="ma">Maranhão</MenuItem> 
-                                <MenuItem value="mt">Mato Grosso</MenuItem> 
-                                <MenuItem value="ms">Mato Grosso do Sul</MenuItem> 
-                                <MenuItem value="mg">Minas Gerais</MenuItem> 
-                                <MenuItem value="pa">Pará</MenuItem> 
-                                <MenuItem value="pb">Paraíba</MenuItem> 
-                                <MenuItem value="pr">Paraná</MenuItem> 
-                                <MenuItem value="pe">Pernambuco</MenuItem> 
-                                <MenuItem value="pi">Piauí</MenuItem> 
-                                <MenuItem value="rj">Rio de Janeiro</MenuItem> 
-                                <MenuItem value="rn">Rio Grande do Norte</MenuItem> 
-                                <MenuItem value="ro">Rondônia</MenuItem> 
-                                <MenuItem value="rs">Rio Grande do Sul</MenuItem> 
-                                <MenuItem value="rr">Roraima</MenuItem> 
-                                <MenuItem value="sc">Santa Catarina</MenuItem> 
-                                <MenuItem value="se">Sergipe</MenuItem> 
-                                <MenuItem value="sp">São Paulo</MenuItem> 
-                                <MenuItem value="to">Tocantins</MenuItem> 
-                            </TextField>
-                            
-                        </Grid>
-                        <Grid item xs={4}>
                             <TextField 
-                                className={classes.inputML} 
-                                sx={{width: 150, marginRight: 2}} 
-                                label="CPF" 
-                                required
-                                name="cpf"
-                                value={values.cpf}
-                                error={invalid.cpf}
-                                helperText={validationMessage.cpf}
-                                onChange={handleChange}
-                            />
-                            <TextField 
-                                label="Telefone" 
-                                name="phoneNumber" 
-                                type="tel"
+                                label="Diagnóstico Clinico" 
+                                name="clinicalDiagnosis" 
                                 sx={{marginLeft: 2}} 
-                                error={invalid.phoneNumber}
-                                helperText={validationMessage.phoneNumber}
-                                value={values.phoneNumber}
+                                value={values.clinicalDiagnosis}
                                 onChange={handleChange}
+                                error={invalid.clinicalDiagnosis}
+                                helperText={validationMessage.clinicalDiagnosis}
+                            />
+
+                            <TextField 
+                                label="Queixa Principal" 
+                                name="mainComplain" 
+                                sx={{marginLeft: 2}} 
+                                value={values.mainComplain}
+                                onChange={handleChange}
+                                error={invalid.mainComplain}
+                                helperText={validationMessage.mainComplain}
+                            />
+                        
+                            <TextField 
+                                label="Medicação" 
+                                name="medication" 
+                                value={values.medication}
+                                onChange={handleChange}
+                                error={invalid.medication}
+                                helperText={validationMessage.medication}
                             />
                             <TextField 
-                                label="Número" 
-                                name="streetNumber"
-                                type="number"
-                                error={invalid.streetNumber}
-                                helperText={validationMessage.streetNumber}
-                                value={values.streetNumber}
-                                onChange={handleChange} 
+                                label="Mobilidade" 
+                                name="mobility" 
+                                sx={{marginLeft: 2}} 
+                                value={values.mobility}
+                                onChange={handleChange}
+                                error={invalid.mobility}
+                                helperText={validationMessage.mobility}
+                            />
+
+                            <TextField 
+                                label="Estado de Consciência" 
+                                name="consciousState" 
+                                sx={{marginLeft: 2}} 
+                                value={values.consciousState}
+                                onChange={handleChange}
+                                error={invalid.consciousState}
+                                helperText={validationMessage.consciousState}
                             />
                             <TextField 
-                                label="E-mail"
-                                required 
-                                name="email" 
-                                type="email"
-                                error={invalid.email}
-                                helperText={validationMessage.email}
-                                value={values.email}
+                                label="Pele e Mucosas" 
+                                name="skinAndMucous" 
+                                sx={{marginLeft: 2}} 
+                                value={values.skinAndMucous}
                                 onChange={handleChange}
+                                error={invalid.skinAndMucous}
+                                helperText={validationMessage.skinAndMucous}
+                            />
+                            <TextField 
+                                label="Vias de Acesso" 
+                                name="accessWays" 
+                                value={values.accessWays}
+                                onChange={handleChange}
+                                error={invalid.accessWays}
+                                helperText={validationMessage.accessWays}
+                            />
+                            <TextField 
+                                label="Abdomen" 
+                                name="abdomen" 
+                                sx={{marginLeft: 2}} 
+                                value={values.abdomen}
+                                onChange={handleChange}
+                                error={invalid.abdomen}
+                                helperText={validationMessage.abdomen}
                             />
                             
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField
-                                select
-                                labelId="sexLabel"
-                                id="sex"
-                                name="sex"
-                                value={values.sex}
-                                error={invalid.sex}
-                                helperText={validationMessage.sex}
-                                onChange={handleChange}
-                                label="Sexo"
-                            >
-                                <MenuItem value="Masculino">Masculino</MenuItem>
-                                <MenuItem value="Feminino">Feminino</MenuItem>
-                            </TextField>
+
                             <TextField 
-                                fullWidth 
-                                label="Rua" 
-                                name="streetName"
-                                error={invalid.streetName}
-                                helperText={validationMessage.streetName}
-                                value={values.streetName}
+                                label="Sinais" 
+                                name="signals" 
+                                sx={{marginLeft: 2}} 
+                                value={values.signals}
                                 onChange={handleChange}
-                            />
-                            
-                            <TextField 
-                                label="Cidade" 
-                                name="city" 
-                                value={values.city}
-                                error={invalid.city}
-                                helperText={validationMessage.city}
-                                onChange={handleChange}
+                                error={invalid.signals}
+                                helperText={validationMessage.signals}
                             />
                             <TextField 
-                                label="Senha" 
-                                required
-                                name="password"
-                                type="password" 
-                                error={invalid.password}
-                                helperText={validationMessage.password}
-                                value={values.password}
+                                label="Sintomas" 
+                                name="symptoms" 
+                                sx={{marginLeft: 2}} 
+                                value={values.symptoms}
                                 onChange={handleChange}
+                                error={invalid.symptoms}
+                                helperText={validationMessage.symptoms}
                             />
                             <TextField 
-                                label="Repita a senha" 
-                                required
-                                type="password" 
-                                onChange={e =>{
-                                    if (e.target.value === values.password) {
-                                        setValidationAuxiliary('password', false);
-                                        setValidationMessageAuxiliary('password', '');
-                                    } else {
-                                        setValidationAuxiliary('password', true);
-                                        setValidationMessageAuxiliary('password', 'As senhas devem ser iguais');
-                                    }
-                                }}
+                                label="Mobilidade Torácica" 
+                                name="thoracicMobility" 
+                                value={values.thoracicMobility}
+                                onChange={handleChange}
+                                error={invalid.thoracicMobility}
+                                helperText={validationMessage.thoracicMobility}
                             />
-                            
+                            <TextField 
+                                label="Expansão Pulmonar" 
+                                name="lungExpansion" 
+                                sx={{marginLeft: 2}} 
+                                value={values.lungExpansion}
+                                onChange={handleChange}
+                                error={invalid.lungExpansion}
+                                helperText={validationMessage.lungExpansion}
+                            />
+
+                            <TextField 
+                                label="Frequência Respiratória" 
+                                name="respiratoryFrequency" 
+                                type="number"
+                                sx={{marginLeft: 2}} 
+                                value={values.respiratoryFrequency}
+                                onChange={handleChange}
+                                error={invalid.respiratoryFrequency}
+                                helperText={validationMessage.respiratoryFrequency}
+                            />
+                        
+                            <TextField 
+                                label="Frequência Cardiaca" 
+                                name="cardiacFrequency"
+                                type="number" 
+                                value={values.cardiacFrequency}
+                                onChange={handleChange}
+                                error={invalid.cardiacFrequency}
+                                helperText={validationMessage.cardiacFrequency}
+                            />
+                            <TextField 
+                                label="Saturação" 
+                                name="saturation" 
+                                type="number"
+                                sx={{marginLeft: 2}} 
+                                value={values.saturation}
+                                onChange={handleChange}
+                                error={invalid.saturation}
+                                helperText={validationMessage.saturation}
+                            />
+
+                            <TextField 
+                                label="Pressão Arterial" 
+                                name="arterialPressure" 
+                                sx={{marginLeft: 2}} 
+                                type="number"
+                                value={values.arterialPressure}
+                                onChange={handleChange}
+                                error={invalid.arterialPressure}
+                                helperText={validationMessage.arterialPressure}
+                            />
+                            <TextField 
+                                label="Temperatura" 
+                                name="temperature" 
+                                type="number"
+                                sx={{marginLeft: 2}} 
+                                value={values.temperature}
+                                onChange={handleChange}
+                                error={invalid.temperature}
+                                helperText={validationMessage.temperature}
+                            />
+                            <TextField 
+                                label="Ausculta Pulmonar" 
+                                name="lungHearing" 
+                                value={values.lungHearing}
+                                onChange={handleChange}
+                                error={invalid.lungHearing}
+                                helperText={validationMessage.lungHearing}
+                            />
+                            <TextField 
+                                label="Tosse" 
+                                name="cough" 
+                                sx={{marginLeft: 2}} 
+                                value={values.cough}
+                                onChange={handleChange}
+                                error={invalid.cough}
+                                helperText={validationMessage.cough}
+                            />
+
+                            <TextField 
+                                label="Secreção" 
+                                name="secretion" 
+                                sx={{marginLeft: 2}} 
+                                value={values.secretion}
+                                onChange={handleChange}
+                                error={invalid.secretion}
+                                helperText={validationMessage.secretion}
+                            />
+                            <TextField 
+                                label="Modo ventilatório" 
+                                name="ventilationMode" 
+                                sx={{marginLeft: 2}} 
+                                value={values.ventilationMode}
+                                onChange={handleChange}
+                                error={invalid.ventilationMode}
+                                helperText={validationMessage.ventilationMode}
+                            />
+
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField 
+                                label="Tonus" 
+                                name="tonus" 
+                                sx={{marginLeft: 2}} 
+                                value={values.tonus}
+                                onChange={handleChange}
+                                error={invalid.tonus}
+                                helperText={validationMessage.tonus}
+                            />
+                            <TextField 
+                                label="Reflexos e Reações" 
+                                name="reflexesAndReaction" 
+                                sx={{marginLeft: 2}} 
+                                value={values.reflexesAndReaction}
+                                onChange={handleChange}
+                                error={invalid.reflexesAndReaction}
+                                helperText={validationMessage.reflexesAndReaction}
+                            />
+                            <TextField 
+                                label="Força Muscular" 
+                                name="muscularStrength" 
+                                value={values.muscularStrength}
+                                onChange={handleChange}
+                                error={invalid.muscularStrength}
+                                helperText={validationMessage.muscularStrength}
+                            />
+                            <TextField 
+                                label="Sensibilidade" 
+                                name="sensibility" 
+                                sx={{marginLeft: 2}} 
+                                value={values.sensibility}
+                                onChange={handleChange}
+                                error={invalid.sensibility}
+                                helperText={validationMessage.sensibility}
+                            />
+
+                            <TextField 
+                                label="Controle Motor" 
+                                name="motorControl" 
+                                sx={{marginLeft: 2}} 
+                                value={values.motorControl}
+                                onChange={handleChange}
+                                error={invalid.motorControl}
+                                helperText={validationMessage.motorControl}
+                            />
+                            <TextField 
+                                label="Exames Complementares" 
+                                name="complimentaryExams" 
+                                value={values.complimentaryExams}
+                                onChange={handleChange}
+                                error={invalid.complimentaryExams}
+                                helperText={validationMessage.complimentaryExams}
+                            />
+                            <TextField 
+                                label="Diagnostico Cinético-Funcional" 
+                                name="functionalKineticDiagnosis" 
+                                sx={{marginLeft: 2}} 
+                                value={values.functionalKineticDiagnosis}
+                                onChange={handleChange}
+                                error={invalid.functionalKineticDiagnosis}
+                                helperText={validationMessage.functionalKineticDiagnosis}
+                            />
+
+                            <TextField 
+                                label="Formato do Tórax" 
+                                name="thoraxFormat" 
+                                sx={{marginLeft: 2}} 
+                                value={values.thoraxFormat}
+                                onChange={handleChange}
+                                error={invalid.thoraxFormat}
+                                helperText={validationMessage.thoraxFormat}
+                            />
+
+                            <TextField 
+                                label="Tipo de Ventilação" 
+                                name="ventilationType" 
+                                sx={{marginLeft: 2}} 
+                                value={values.ventilationType}
+                                onChange={handleChange}
+                                error={invalid.ventilationType}
+                                helperText={validationMessage.ventilationType}
+                            />
+                            <TextField 
+                                label=" Padrão Muscular Ventilatório" 
+                                name="ventilationMuscularPattern" 
+                                sx={{marginLeft: 2}} 
+                                value={values.ventilationMuscularPattern}
+                                onChange={handleChange}
+                                error={invalid.ventilationMuscularPattern}
+                                helperText={validationMessage.ventilationMuscularPattern}
+                            />
+                        
+                            <TextField 
+                                label="Ritmo Ventilatório" 
+                                name="ventilationRhythm" 
+                                value={values.ventilationRhythm}
+                                onChange={handleChange}
+                                error={invalid.ventilationRhythm}
+                                helperText={validationMessage.ventilationRhythm}
+                            />
+
+                            <TextField 
+                                label="Problema" 
+                                name="problem" 
+                                sx={{marginLeft: 2}} 
+                                value={values.problem}
+                                onChange={handleChange}
+                                error={invalid.problem}
+                                helperText={validationMessage.problem}
+                            />
+                            <TextField 
+                                label="Alvo" 
+                                name="target" 
+                                sx={{marginLeft: 2}} 
+                                value={values.target}
+                                onChange={handleChange}
+                                error={invalid.target}
+                                helperText={validationMessage.target}
+                            />
+                            <TextField 
+                                label="Conduta" 
+                                name="conduct" 
+                                value={values.conduct}
+                                onChange={handleChange}
+                                error={invalid.conduct}
+                                helperText={validationMessage.conduct}
+                            />
                         </Grid>
                     </Grid>
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
                     <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
                 </form>
+                }
                 <Snackbar
                     anchorOrigin={{ vertical, horizontal }}
                     open={openSnack}
