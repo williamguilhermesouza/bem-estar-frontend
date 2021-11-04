@@ -131,3 +131,45 @@ export async function deleteMovement(id) {
 export async function loginApi(credentials) {
     return await api.post('/auth/login', credentials);
 }
+
+// ######### EVALUATION ############
+export async function getEvaluations() {
+    return await api.get(`/evaluations`);
+}
+
+export async function getEvaluation(id) {
+    return await api.get(`/evaluations/${id}`);
+}
+
+export async function createEvaluation(evaluation) {
+    return await api.post(`/evaluations`, evaluation);
+} 
+
+export async function updateEvaluation(id, evaluation) {
+    return await api.patch(`/evaluations/${id}`, evaluation);
+}
+
+export async function deleteEvaluation(id) {
+    return await api.delete(`/evaluations/${id}`);
+}
+
+// ######### RPG EVALUATION ############
+export async function getRpgs() {
+    return await api.get(`/rpgs`);
+}
+
+export async function getRpg(id) {
+    return await api.get(`/rpgs/${id}`);
+}
+
+export async function createRpg(rpg) {
+    return await api.post(`/rpgs`, rpg);
+} 
+
+export async function updateRpg(id, rpg) {
+    return await api.patch(`/rpgs/${id}`, rpg);
+}
+
+export async function deleteRpg(id) {
+    return await api.delete(`/rpgs/${id}`);
+}

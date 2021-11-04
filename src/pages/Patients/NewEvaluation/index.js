@@ -2,7 +2,7 @@ import { Grid, TextField, Container, Button, Snackbar, Tabs, Tab } from '@mui/ma
 import { createStyles, makeStyles } from '@material-ui/styles';
 import React, {useState} from 'react';
 import Sidebar from '../../../components/Sidebar';
-import {createUser, updateUser} from '../../../services/API';
+import {createEvaluation, updateEvaluation} from '../../../services/API';
 
 const useStyles = makeStyles(theme => createStyles({
     root: {
@@ -65,6 +65,10 @@ export default function NewEvaluation(props) {
         conduct: ""
     };
 
+    let rpgEvaluation ={
+
+    };
+
     let validation = {
         currentDiseaseHistoric: false,
         associateDiseases: false,
@@ -108,6 +112,10 @@ export default function NewEvaluation(props) {
         conduct: false
     };
 
+    let rpgValidation = {
+
+    };
+
     if (props.location.state) {
         evaluation = props.location.state.evaluation;
     }
@@ -115,6 +123,11 @@ export default function NewEvaluation(props) {
     const [values, setValues] = useState(evaluation);
     const [validationMessage, setValidationMessage] = useState(evaluation);
     const [invalid, setInvalid] = useState(validation);
+
+    const [rpgValues, setRpgValues] = useState(rpgEvaluation);
+    const [rpgValidationMessage, setRpgValidationMessage] = useState(rpgEvaluation);
+    const [rpgInvalid, setRpgInvalid] = useState(rpgValidation);
+
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
     const [tab, setTab] = useState(0);
@@ -181,9 +194,9 @@ export default function NewEvaluation(props) {
 
         try {
             if (evaluation.name !== '') {
-                await updateUser(values.id, values);
+                await updateEvaluation(values.id, values);
             } else {
-                await createUser(values);
+                await createEvaluation(values);
             }
             setSnackMessage('Operação realizada com sucesso!');
         } catch {
@@ -587,6 +600,52 @@ export default function NewEvaluation(props) {
                                 error={invalid.conduct}
                                 helperText={validationMessage.conduct}
                             />
+                        </Grid>
+                    </Grid>
+                    <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
+                    <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
+                </form>
+                }
+
+
+                { tab === 1 &&
+                <form method="POST" onSubmit={handleSubmit} className={classes.root}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                            <TextField 
+                                label="Histórico Atual de Doença" 
+                                name="currentDiseaseHistoric" 
+                                sx={{marginLeft: 2}} 
+                                value={rpgValues.currentDiseaseHistoric}
+                                onChange={handleChange}
+                                error={rpgInvalid.currentDiseaseHistoric}
+                                helperText={rpgValidationMessage.currentDiseaseHistoric}
+                            />
+                            
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField 
+                                label="Histórico Atual de Doença" 
+                                name="currentDiseaseHistoric" 
+                                sx={{marginLeft: 2}} 
+                                value={values.currentDiseaseHistoric}
+                                onChange={handleChange}
+                                error={invalid.currentDiseaseHistoric}
+                                helperText={validationMessage.currentDiseaseHistoric}
+                            />
+                            
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField 
+                                label="Histórico Atual de Doença" 
+                                name="currentDiseaseHistoric" 
+                                sx={{marginLeft: 2}} 
+                                value={values.currentDiseaseHistoric}
+                                onChange={handleChange}
+                                error={invalid.currentDiseaseHistoric}
+                                helperText={validationMessage.currentDiseaseHistoric}
+                            />
+                            
                         </Grid>
                     </Grid>
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>

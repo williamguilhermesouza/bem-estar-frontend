@@ -62,6 +62,10 @@ export default function Patients() {
     setSelectedPatientsIds(row);
   }
 
+  function handleSeeEvaluations() {
+    history.push('/evaluation/listing', {patient: selectedPatient});
+  }
+
   return(
     <div className={classes.root}>
       <Sidebar />
@@ -73,6 +77,7 @@ export default function Patients() {
       >
         <Button variant="contained" className={classes.userButtons} href="/patients/new">Novo paciente</Button>
         <Button variant="contained" className={classes.userButtons} color="warning" onClick={handleUpdatePatient}>Editar paciente</Button>
+        <Button variant="contained" className={classes.userButtons} color="success" onClick={handleSeeEvaluations}>Ver avaliações</Button>
         <Button variant="contained" className={classes.userButtons} color="error" onClick={handleDeletePatient}>Excluir paciente</Button>
       </Stack>
       <Typography>Todos os Pacientes</Typography>
