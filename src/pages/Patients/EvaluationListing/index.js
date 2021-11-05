@@ -4,7 +4,7 @@ import Sidebar from '../../../components/Sidebar';
 import { Button, Typography, Stack } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import { DataGrid } from '@mui/x-data-grid';
-import {deleteEvaluation, getEvaluation, getEvaluationByPatientId, getRpgByPatientId} from '../../../services/API';
+import {deleteEvaluation, getEvaluationByPatientId, getRpgByPatientId} from '../../../services/API';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -30,50 +30,47 @@ export default function EvaluationListing(props) {
   const [selectedEvaluation, setSelectedEvaluation] = useState();
   const [selectedEvaluationsIds, setSelectedEvaluationsIds] = useState([]);
 
-  
   let patient = props.location.state.patient;
-  
-  async function retrieveData() {
-    const evaluationResponse = await getEvaluationByPatientId(patient.id);
-    const rpgResponse = await getRpgByPatientId(patient.id);
-
-    let response = [];
-
-    evaluationResponse.data.forEach(element => {
-      element.createdAt = new Date(element.createdAt).toLocaleDateString("pt-br", {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
-
-      element.type = 'RPG';
-
-      response = [...response, element];
-    });
-
-    rpgResponse.data.forEach(element => {
-      element.createdAt = new Date(element.createdAt).toLocaleDateString("pt-br", {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
-
-      element.type = 'Fisioterapêutica';
-
-      response = [...response, element];
-    });
-    
-    console.log(response);
-    if (response.length !== 0) {
-      setEvaluations(response);
-    }
-    
-  }
-
 
   useEffect(() => {
+    async function retrieveData() {
+      const evaluationResponse = await getEvaluationByPatientId(patient.id);
+      const rpgResponse = await getRpgByPatientId(patient.id);
+  
+      let response = [];
+  
+      evaluationResponse.data.forEach(element => {
+        element.createdAt = new Date(element.createdAt).toLocaleDateString("pt-br", {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+  
+        element.type = 'Fisioterapêutica';
+  
+        response = [...response, element];
+      });
+  
+      rpgResponse.data.forEach(element => {
+        element.createdAt = new Date(element.createdAt).toLocaleDateString("pt-br", {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+  
+        element.type = 'RPG';
+  
+        response = [...response, element];
+      });
+      
+      if (response.length !== 0) {
+        setEvaluations(response);
+      }
+      
+    }
+
     retrieveData();
-  });
+  }, [patient]);
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 130 },
@@ -82,7 +79,11 @@ export default function EvaluationListing(props) {
   ];
 
   async function handleUpdateEvaluation() {
-    history.push('/evaluation/new', {evaluation: selectedEvaluation, patient});
+    if (selectedEvaluation.type === 'RPG') {
+      history.push('/evaluation/new', {rpgEvaluation: selectedEvaluation, patient});
+    } else {
+      history.push('/evaluation/new', {evaluation: selectedEvaluation, patient});
+    }
   }
 
   async function handleNewEvaluation() {
@@ -102,8 +103,11 @@ export default function EvaluationListing(props) {
     if (!row[0]) {
       return
     }
-    const evaluation = await getEvaluation(row[0]);
-    setSelectedEvaluation(evaluation.data);
+    //const evaluation = await getEvaluation(row[0]);
+    const evaluation = evaluations.filter(element => {
+      return element.id === row[0];
+    });
+    setSelectedEvaluation(evaluation[0]);
     setSelectedEvaluationsIds(row);
   }
 

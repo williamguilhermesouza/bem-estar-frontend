@@ -149,6 +149,7 @@ export default function NewEvaluation(props) {
     };
 
     let patient;
+    let tabValue = 0;
 
     if (props.location.state) {
         const state = props.location.state;
@@ -158,8 +159,13 @@ export default function NewEvaluation(props) {
         if (state.patient) {
             patient = state.patient;
         }
+
+        if (state.rpgEvaluation) {
+            rpgEvaluation = state.rpgEvaluation;
+            tabValue = 1;
+        }
     }
-    
+
     const [values, setValues] = useState(evaluation);
     const [validationMessage, setValidationMessage] = useState(evaluation);
     const [invalid, setInvalid] = useState(validation);
@@ -170,7 +176,7 @@ export default function NewEvaluation(props) {
 
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
-    const [tab, setTab] = useState(0);
+    const [tab, setTab] = useState(tabValue);
     const vertical = 'top'; const horizontal = 'right';
     
 
