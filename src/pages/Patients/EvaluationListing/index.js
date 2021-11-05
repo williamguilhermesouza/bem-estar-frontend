@@ -4,7 +4,7 @@ import Sidebar from '../../../components/Sidebar';
 import { Button, Typography, Stack } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import { DataGrid } from '@mui/x-data-grid';
-import {deleteEvaluation, getEvaluation, getAttendanceByPatientId} from '../../../services/API';
+import {deleteEvaluation, getEvaluation, getEvaluationByPatientId, getRpgByPatientId} from '../../../services/API';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -34,15 +34,39 @@ export default function EvaluationListing(props) {
   let patient = props.location.state.patient;
   
   async function retrieveData() {
-    const response = await getAttendanceByPatientId(patient.id);
-    response.data.forEach(element => {
-      element.attendanceDate = new Date(element.attendanceDate).toLocaleDateString("pt-br", {
+    const evaluationResponse = await getEvaluationByPatientId(patient.id);
+    const rpgResponse = await getRpgByPatientId(patient.id);
+
+    let response = [];
+
+    evaluationResponse.data.forEach(element => {
+      element.createdAt = new Date(element.createdAt).toLocaleDateString("pt-br", {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit'
       });
+
+      element.type = 'RPG';
+
+      response = [...response, element];
     });
-    setEvaluations(response.data);
+
+    rpgResponse.data.forEach(element => {
+      element.createdAt = new Date(element.createdAt).toLocaleDateString("pt-br", {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+
+      element.type = 'Fisioterapêutica';
+
+      response = [...response, element];
+    });
+    
+    console.log(response);
+    if (response.length !== 0) {
+      setEvaluations(response);
+    }
     
   }
 
@@ -53,7 +77,8 @@ export default function EvaluationListing(props) {
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 130 },
-    { field: 'attendanceDate', headerName: 'Data do atendimento', width: 400 },
+    { field: 'createdAt', headerName: 'Data da avaliação', width: 400 },
+    { field: 'type', headerName: 'Tipo', width: 400 },
   ];
 
   async function handleUpdateEvaluation() {
@@ -91,9 +116,9 @@ export default function EvaluationListing(props) {
         justifyContent="flex-end"
         spacing={2}
       >
-        <Button variant="contained" className={classes.userButtons} onClick={handleNewEvaluation}>Novo Atendimento</Button>
-        <Button variant="contained" className={classes.userButtons} color="success" onClick={handleUpdateEvaluation}>Ver Atendimento</Button>
-        <Button variant="contained" className={classes.userButtons} color="error" onClick={handleDeleteEvaluation}>Excluir Atendimento</Button>
+        <Button variant="contained" className={classes.userButtons} onClick={handleNewEvaluation}>Nova Avaliação</Button>
+        <Button variant="contained" className={classes.userButtons} color="success" onClick={handleUpdateEvaluation}>Ver Avaliação</Button>
+        <Button variant="contained" className={classes.userButtons} color="error" onClick={handleDeleteEvaluation}>Excluir Avaliação</Button>
       </Stack>
       <Typography>Todos os Atendimentos</Typography>
       <DataGrid

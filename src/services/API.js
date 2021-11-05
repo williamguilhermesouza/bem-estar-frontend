@@ -153,6 +153,10 @@ export async function deleteEvaluation(id) {
     return await api.delete(`/evaluations/${id}`);
 }
 
+export async function getEvaluationByPatientId(id) {
+    return await api.get(`/evaluations/patientId/${id}`);
+}
+
 // ######### RPG EVALUATION ############
 export async function getRpgs() {
     return await api.get(`/rpgs`);
@@ -172,4 +176,8 @@ export async function updateRpg(id, rpg) {
 
 export async function deleteRpg(id) {
     return await api.delete(`/rpgs/${id}`);
+}
+
+export async function getRpgByPatientId(id) {
+    return await api.get(`/rpgs/patientId/${id}`);
 }

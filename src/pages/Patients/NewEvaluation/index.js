@@ -2,7 +2,7 @@ import { Grid, TextField, Container, Button, Snackbar, Tabs, Tab } from '@mui/ma
 import { createStyles, makeStyles } from '@material-ui/styles';
 import React, {useState} from 'react';
 import Sidebar from '../../../components/Sidebar';
-import {createEvaluation, updateEvaluation} from '../../../services/API';
+import {createEvaluation, createRpg, updateEvaluation, updateRpg} from '../../../services/API';
 
 const useStyles = makeStyles(theme => createStyles({
     root: {
@@ -66,7 +66,23 @@ export default function NewEvaluation(props) {
     };
 
     let rpgEvaluation ={
-
+        rightFeet: '',
+        leftFeet: '',
+        rightAnkle: '',
+        leftAnkle: '',
+        rightKnee: '',
+        leftKnee: '',
+        pelvis: '',
+        lumbar: '',
+        dorsal: '',
+        cervical: '',
+        rightShoulder: '',
+        leftShoulder: '',
+        shoulderBlade: '',
+        head: '',
+        observations: '',
+        physiotherapyDiagnosis: '',
+        rehabTarget: ''
     };
 
     let validation = {
@@ -113,11 +129,35 @@ export default function NewEvaluation(props) {
     };
 
     let rpgValidation = {
-
+        rightFeet: false,
+        leftFeet: false,
+        rightAnkle: false,
+        leftAnkle: false,
+        rightKnee: false,
+        leftKnee: false,
+        pelvis: false,
+        lumbar: false,
+        dorsal: false,
+        cervical: false,
+        rightShoulder: false,
+        leftShoulder: false,
+        shoulderBlade: false,
+        head: false,
+        observations: false,
+        physiotherapyDiagnosis: false,
+        rehabTarget: false
     };
 
+    let patient;
+
     if (props.location.state) {
-        evaluation = props.location.state.evaluation;
+        const state = props.location.state;
+        if (state.evaluation) {
+            evaluation = state.evaluation;
+        }
+        if (state.patient) {
+            patient = state.patient;
+        }
     }
     
     const [values, setValues] = useState(evaluation);
@@ -132,7 +172,23 @@ export default function NewEvaluation(props) {
     const [snackMessage, setSnackMessage] = useState();
     const [tab, setTab] = useState(0);
     const vertical = 'top'; const horizontal = 'right';
+    
 
+    function rpgHandleChange(event) {
+        const fieldValue = event.target.value;
+        const fieldName = event.target.name;
+        setRpgValues({
+            ...rpgValues, 
+            [fieldName]: fieldValue,
+        });
+
+        rpgValidateField(event.target);
+    };
+
+    function rpgValidateField() {
+        setRpgValidationMessage(rpgValidationMessage);
+        setRpgInvalid(rpgInvalid);
+    }
 
     const handleChange = (event) => {
         const fieldValue = event.target.value;
@@ -193,10 +249,27 @@ export default function NewEvaluation(props) {
         e.preventDefault();
 
         try {
-            if (evaluation.name !== '') {
-                await updateEvaluation(values.id, values);
+            if (evaluation.currentDiseaseHistoric !== '') {
+                await updateEvaluation(values.id, {patientId: patient.id,...values});
             } else {
-                await createEvaluation(values);
+                await createEvaluation({patientId: patient.id,...values});
+            }
+            setSnackMessage('Operação realizada com sucesso!');
+        } catch {
+            setSnackMessage('Erro ao realizar operação');
+        }
+
+        setOpenSnack(true);
+    }
+
+    async function handleSubmitRpg(e) {
+        e.preventDefault();
+
+        try {
+            if (rpgEvaluation.rightFeet !== '') {
+                await updateRpg(values.id, {patientId: patient.id,...rpgValues});
+            } else {
+                await createRpg({patientId: patient.id,...rpgValues});
             }
             setSnackMessage('Operação realizada com sucesso!');
         } catch {
@@ -609,43 +682,152 @@ export default function NewEvaluation(props) {
 
 
                 { tab === 1 &&
-                <form method="POST" onSubmit={handleSubmit} className={classes.root}>
+                <form method="POST" onSubmit={handleSubmitRpg} className={classes.root}>
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
                             <TextField 
-                                label="Histórico Atual de Doença" 
-                                name="currentDiseaseHistoric" 
-                                sx={{marginLeft: 2}} 
-                                value={rpgValues.currentDiseaseHistoric}
-                                onChange={handleChange}
-                                error={rpgInvalid.currentDiseaseHistoric}
-                                helperText={rpgValidationMessage.currentDiseaseHistoric}
+                                label="Pé direito" 
+                                name="rightFeet" 
+                                value={rpgValues.rightFeet}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.rightFeet}
+                                helperText={rpgValidationMessage.rightFeet}
+                            />
+                            <TextField 
+                                label="Pé esquerdo" 
+                                name="leftFeet" 
+                                value={rpgValues.leftFeet}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.leftFeet}
+                                helperText={rpgValidationMessage.leftFeet}
+                            />
+                            <TextField 
+                                label="Tornozelo direito" 
+                                name="rightAnkle" 
+                                value={rpgValues.rightAnkle}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.rightAnkle}
+                                helperText={rpgValidationMessage.rightAnkle}
+                            />
+                            <TextField 
+                                label="Tornozelo esquerdo" 
+                                name="leftAnkle" 
+                                value={rpgValues.leftAnkle}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.leftAnkle}
+                                helperText={rpgValidationMessage.leftAnkle}
+                            />
+                            <TextField 
+                                label="Joelho direito" 
+                                name="rightKnee" 
+                                value={rpgValues.rightKnee}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.rightKnee}
+                                helperText={rpgValidationMessage.rightKnee}
+                            />
+                            <TextField 
+                                label="Joelho esquerdo" 
+                                name="leftKnee" 
+                                value={rpgValues.leftKnee}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.leftKnee}
+                                helperText={rpgValidationMessage.leftKnee}
                             />
                             
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField 
-                                label="Histórico Atual de Doença" 
-                                name="currentDiseaseHistoric" 
-                                sx={{marginLeft: 2}} 
-                                value={values.currentDiseaseHistoric}
-                                onChange={handleChange}
-                                error={invalid.currentDiseaseHistoric}
-                                helperText={validationMessage.currentDiseaseHistoric}
-                            />
                             
+                            <TextField 
+                                label="Pelvis" 
+                                name="pelvis" 
+                                value={rpgValues.pelvis}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.pelvis}
+                                helperText={rpgValidationMessage.pelvis}
+                            />
+                            <TextField 
+                                label="Lombar" 
+                                name="lumbar" 
+                                value={rpgValues.lumbar}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.lumbar}
+                                helperText={rpgValidationMessage.lumbar}
+                            />
+                            <TextField 
+                                label="Dorsal" 
+                                name="dorsal" 
+                                value={rpgValues.dorsal}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.dorsal}
+                                helperText={rpgValidationMessage.dorsal}
+                            />
+                            <TextField 
+                                label="Cervical" 
+                                name="cervical" 
+                                value={rpgValues.cervical}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.cervical}
+                                helperText={rpgValidationMessage.cervical}
+                            />
+                            <TextField 
+                                label="Ombro direito" 
+                                name="rightShoulder" 
+                                value={rpgValues.rightShoulder}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.rightShoulder}
+                                helperText={rpgValidationMessage.rightShoulder}
+                            />
+                            <TextField 
+                                label="Ombro esquerdo" 
+                                name="leftShoulder" 
+                                value={rpgValues.leftShoulder}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.leftShoulder}
+                                helperText={rpgValidationMessage.leftShoulder}
+                            />
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField 
-                                label="Histórico Atual de Doença" 
-                                name="currentDiseaseHistoric" 
-                                sx={{marginLeft: 2}} 
-                                value={values.currentDiseaseHistoric}
-                                onChange={handleChange}
-                                error={invalid.currentDiseaseHistoric}
-                                helperText={validationMessage.currentDiseaseHistoric}
-                            />
                             
+                            <TextField 
+                                label="Escapula" 
+                                name="shoulderBlade" 
+                                value={rpgValues.shoulderBlade}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.shoulderBlade}
+                                helperText={rpgValidationMessage.shoulderBlade}
+                            />
+                            <TextField 
+                                label="Cabeça" 
+                                name="head" 
+                                value={rpgValues.head}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.head}
+                                helperText={rpgValidationMessage.head}
+                            />
+                            <TextField 
+                                label="Observações" 
+                                name="observations" 
+                                value={rpgValues.observations}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.observations}
+                                helperText={rpgValidationMessage.observations}
+                            />
+                            <TextField 
+                                label="Diagnóstico Fisioterapêutico" 
+                                name="physiotherapyDiagnosis" 
+                                value={rpgValues.physiotherapyDiagnosis}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.physiotherapyDiagnosis}
+                                helperText={rpgValidationMessage.physiotherapyDiagnosis}
+                            />
+                            <TextField 
+                                label="Alvo da reabilitação" 
+                                name="rehabTarget" 
+                                value={rpgValues.rehabTarget}
+                                onChange={rpgHandleChange}
+                                error={rpgInvalid.rehabTarget}
+                                helperText={rpgValidationMessage.rehabTarget}
+                            />
                         </Grid>
                     </Grid>
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>

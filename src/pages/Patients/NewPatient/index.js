@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => createStyles({
 
 export default function NewPatient(props) {
     const classes = useStyles();
-    console.log(props);
     
     let patient = {
         name: '',
@@ -74,7 +73,6 @@ export default function NewPatient(props) {
 
     if (props.location.state) {
         patient = props.location.state.patient;
-        console.log(props.location.state.patient);
     }
     
     const history = useHistory();
@@ -156,11 +154,11 @@ export default function NewPatient(props) {
         }
 
         setOpenSnack(true);
-        return patientReturn;
+        return patientReturn.data;
     }
 
-    function handleNewEvaluation(e) {
-        let patientReturn = handleSubmit(e);
+    async function handleNewEvaluation(e) {
+        let patientReturn = await handleSubmit(e);
         if (patientReturn) {
             history.push('/evaluation/new',{patient: patientReturn});
         }
