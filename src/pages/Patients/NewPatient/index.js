@@ -48,6 +48,8 @@ export default function NewPatient(props) {
         height: '',
     };
 
+    let message = patient;
+
     let validation = {
         name: false,
         sex: false,
@@ -70,17 +72,20 @@ export default function NewPatient(props) {
         height: false,
     };
 
+    let disabled = false;
 
     if (props.location.state) {
         patient = props.location.state.patient;
+        disabled = true;
     }
     
     const history = useHistory();
     const [values, setValues] = useState(patient);
-    const [validationMessage, setValidationMessage] = useState(patient);
+    const [validationMessage, setValidationMessage] = useState(message);
     const [invalid, setInvalid] = useState(validation);
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
+    const [editable, setEditable] = useState(disabled);
     const vertical = 'top'; const horizontal = 'right';
 
 
@@ -175,6 +180,7 @@ export default function NewPatient(props) {
                             <TextField 
                                 fullWidth 
                                 required
+                                disabled={editable}
                                 label="Nome Completo" 
                                 name="name"
                                 error={invalid.name}
@@ -187,6 +193,7 @@ export default function NewPatient(props) {
                                     required
                                     label="Data de Nascimento"
                                     error={invalid.birthDate}
+                                    disabled={editable}
                                     helperText={validationMessage.birthDate}
                                     value={values.birthDate}
                                     name="birthDate"
@@ -204,6 +211,7 @@ export default function NewPatient(props) {
                                 required
                                 label="Bairro" 
                                 name="streetDistrict" 
+                                disabled={editable}
                                 sx={{marginLeft: 2}} 
                                 error={invalid.streetDistrict}
                                 helperText={validationMessage.streetDistrict}
@@ -217,6 +225,7 @@ export default function NewPatient(props) {
                                 labelId="stateLabel"
                                 id="state"
                                 name="state"
+                                disabled={editable}
                                 value={values.state}
                                 error={invalid.state}
                                 helperText={validationMessage.state}
@@ -256,6 +265,7 @@ export default function NewPatient(props) {
                                 required
                                 name="color" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.color}
                                 error={invalid.color}
                                 helperText={validationMessage.color}
@@ -269,6 +279,7 @@ export default function NewPatient(props) {
                                 type="number" 
                                 sx={{marginLeft: 2}} 
                                 value={values.weight}
+                                disabled={editable}
                                 error={invalid.weight}
                                 helperText={validationMessage.weight}
                                 onChange={handleChange}
@@ -282,6 +293,7 @@ export default function NewPatient(props) {
                                 required
                                 name="cpf"
                                 value={values.cpf}
+                                disabled={editable}
                                 error={invalid.cpf}
                                 helperText={validationMessage.cpf}
                                 onChange={handleChange}
@@ -292,6 +304,7 @@ export default function NewPatient(props) {
                                 name="phoneNumber" 
                                 type="tel"
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 error={invalid.phoneNumber}
                                 helperText={validationMessage.phoneNumber}
                                 value={values.phoneNumber}
@@ -303,6 +316,7 @@ export default function NewPatient(props) {
                                 name="streetNumber"
                                 type="number"
                                 error={invalid.streetNumber}
+                                disabled={editable}
                                 helperText={validationMessage.streetNumber}
                                 value={values.streetNumber}
                                 onChange={handleChange} 
@@ -313,6 +327,7 @@ export default function NewPatient(props) {
                                 name="religion" 
                                 sx={{marginLeft: 2}} 
                                 value={values.religion}
+                                disabled={editable}
                                 error={invalid.religion}
                                 helperText={validationMessage.religion}
                                 onChange={handleChange}
@@ -322,6 +337,7 @@ export default function NewPatient(props) {
                                 required 
                                 name="placeOfBirth" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 error={invalid.placeOfBirth}
                                 helperText={validationMessage.placeOfBirth}
                                 value={values.placeOfBirth}
@@ -331,6 +347,7 @@ export default function NewPatient(props) {
                                 label="Altura"
                                 required
                                 error={invalid.height}
+                                disabled={editable}
                                 helperText={validationMessage.height} 
                                 name="height"
                                 type="number" 
@@ -346,6 +363,7 @@ export default function NewPatient(props) {
                                 id="sex"
                                 name="sex"
                                 value={values.sex}
+                                disabled={editable}
                                 error={invalid.sex}
                                 helperText={validationMessage.sex}
                                 onChange={handleChange}
@@ -360,6 +378,7 @@ export default function NewPatient(props) {
                                 required
                                 name="streetName"
                                 error={invalid.streetName}
+                                disabled={editable}
                                 helperText={validationMessage.streetName}
                                 value={values.streetName}
                                 onChange={handleChange}
@@ -370,6 +389,7 @@ export default function NewPatient(props) {
                                 name="city" 
                                 required
                                 value={values.city}
+                                disabled={editable}
                                 error={invalid.city}
                                 helperText={validationMessage.city}
                                 onChange={handleChange}
@@ -378,6 +398,7 @@ export default function NewPatient(props) {
                                 select
                                 label="Escolaridade" 
                                 error={invalid.scholarship}
+                                disabled={editable}
                                 helperText={validationMessage.scholarship}
                                 required
                                 name="scholarship" 
@@ -395,6 +416,7 @@ export default function NewPatient(props) {
                                 name="profession" 
                                 required
                                 error={invalid.profession}
+                                disabled={editable}
                                 helperText={validationMessage.profession}
                                 sx={{marginLeft: 2}} 
                                 value={values.profession}
@@ -406,6 +428,7 @@ export default function NewPatient(props) {
                                 name="email" 
                                 type="email"
                                 error={invalid.email}
+                                disabled={editable}
                                 helperText={validationMessage.email}
                                 value={values.email}
                                 onChange={handleChange}
@@ -415,8 +438,10 @@ export default function NewPatient(props) {
                     </Grid>
 
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
-                    <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
-                    <Button variant="contained" color="success" sx={{margin: "20px"}} onClick={handleNewEvaluation}>Avaliação</Button>
+                    { patient.name !== '' &&
+                    <Button variant="contained" color="success" sx={{margin: "20px"}} onClick={()=>{setEditable(false)}}>Editar</Button>
+                    }
+                    <Button variant="contained" color="warning" sx={{margin: "20px"}} onClick={()=>{setValues(message)}} >Limpar</Button>                    <Button variant="contained" color="success" sx={{margin: "20px"}} onClick={handleNewEvaluation}>Avaliação</Button>
                 </form>
                 <Snackbar
                     anchorOrigin={{ vertical, horizontal }}

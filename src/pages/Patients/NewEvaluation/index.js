@@ -65,6 +65,8 @@ export default function NewEvaluation(props) {
         conduct: ""
     };
 
+    let message = evaluation;
+
     let rpgEvaluation ={
         rightFeet: '',
         leftFeet: '',
@@ -84,6 +86,8 @@ export default function NewEvaluation(props) {
         physiotherapyDiagnosis: '',
         rehabTarget: ''
     };
+
+    let rpgMessage = rpgEvaluation;
 
     let validation = {
         currentDiseaseHistoric: false,
@@ -150,11 +154,13 @@ export default function NewEvaluation(props) {
 
     let patient;
     let tabValue = 0;
+    let disabled = false;
 
     if (props.location.state) {
         const state = props.location.state;
         if (state.evaluation) {
             evaluation = state.evaluation;
+            disabled = true;
         }
         if (state.patient) {
             patient = state.patient;
@@ -163,17 +169,19 @@ export default function NewEvaluation(props) {
         if (state.rpgEvaluation) {
             rpgEvaluation = state.rpgEvaluation;
             tabValue = 1;
+            disabled = true;
         }
     }
 
     const [values, setValues] = useState(evaluation);
-    const [validationMessage, setValidationMessage] = useState(evaluation);
+    const [validationMessage, setValidationMessage] = useState(message);
     const [invalid, setInvalid] = useState(validation);
 
     const [rpgValues, setRpgValues] = useState(rpgEvaluation);
-    const [rpgValidationMessage, setRpgValidationMessage] = useState(rpgEvaluation);
+    const [rpgValidationMessage, setRpgValidationMessage] = useState(rpgMessage);
     const [rpgInvalid, setRpgInvalid] = useState(rpgValidation);
 
+    const [editable, setEditable] = useState(disabled);
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
     const [tab, setTab] = useState(tabValue);
@@ -307,6 +315,7 @@ export default function NewEvaluation(props) {
                                 label="Histórico Atual de Doença" 
                                 name="currentDiseaseHistoric" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.currentDiseaseHistoric}
                                 onChange={handleChange}
                                 error={invalid.currentDiseaseHistoric}
@@ -316,6 +325,7 @@ export default function NewEvaluation(props) {
                                 label="Doenças Associadas" 
                                 name="associateDiseases" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.associateDiseases}
                                 onChange={handleChange}
                                 error={invalid.associateDiseases}
@@ -325,6 +335,7 @@ export default function NewEvaluation(props) {
                                 label="Doenças Passadas" 
                                 name="pastDiseases" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.pastDiseases}
                                 onChange={handleChange}
                                 error={invalid.pastDiseases}
@@ -334,6 +345,7 @@ export default function NewEvaluation(props) {
                                 label="Histórico Familiar" 
                                 name="familyHistoric" 
                                 value={values.familyHistoric}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.familyHistoric}
                                 helperText={validationMessage.familyHistoric}
@@ -343,6 +355,7 @@ export default function NewEvaluation(props) {
                                 label="Hábitos" 
                                 name="lifeHabits" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.lifeHabits}
                                 onChange={handleChange}
                                 error={invalid.lifeHabits}
@@ -353,6 +366,7 @@ export default function NewEvaluation(props) {
                                 label="Diagnóstico Clinico" 
                                 name="clinicalDiagnosis" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.clinicalDiagnosis}
                                 onChange={handleChange}
                                 error={invalid.clinicalDiagnosis}
@@ -363,6 +377,7 @@ export default function NewEvaluation(props) {
                                 label="Queixa Principal" 
                                 name="mainComplain" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.mainComplain}
                                 onChange={handleChange}
                                 error={invalid.mainComplain}
@@ -373,6 +388,7 @@ export default function NewEvaluation(props) {
                                 label="Medicação" 
                                 name="medication" 
                                 value={values.medication}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.medication}
                                 helperText={validationMessage.medication}
@@ -381,6 +397,7 @@ export default function NewEvaluation(props) {
                                 label="Mobilidade" 
                                 name="mobility" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.mobility}
                                 onChange={handleChange}
                                 error={invalid.mobility}
@@ -392,6 +409,7 @@ export default function NewEvaluation(props) {
                                 name="consciousState" 
                                 sx={{marginLeft: 2}} 
                                 value={values.consciousState}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.consciousState}
                                 helperText={validationMessage.consciousState}
@@ -400,6 +418,7 @@ export default function NewEvaluation(props) {
                                 label="Pele e Mucosas" 
                                 name="skinAndMucous" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.skinAndMucous}
                                 onChange={handleChange}
                                 error={invalid.skinAndMucous}
@@ -409,6 +428,7 @@ export default function NewEvaluation(props) {
                                 label="Vias de Acesso" 
                                 name="accessWays" 
                                 value={values.accessWays}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.accessWays}
                                 helperText={validationMessage.accessWays}
@@ -417,6 +437,7 @@ export default function NewEvaluation(props) {
                                 label="Abdomen" 
                                 name="abdomen" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.abdomen}
                                 onChange={handleChange}
                                 error={invalid.abdomen}
@@ -431,6 +452,7 @@ export default function NewEvaluation(props) {
                                 name="signals" 
                                 sx={{marginLeft: 2}} 
                                 value={values.signals}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.signals}
                                 helperText={validationMessage.signals}
@@ -440,6 +462,7 @@ export default function NewEvaluation(props) {
                                 name="symptoms" 
                                 sx={{marginLeft: 2}} 
                                 value={values.symptoms}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.symptoms}
                                 helperText={validationMessage.symptoms}
@@ -448,6 +471,7 @@ export default function NewEvaluation(props) {
                                 label="Mobilidade Torácica" 
                                 name="thoracicMobility" 
                                 value={values.thoracicMobility}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.thoracicMobility}
                                 helperText={validationMessage.thoracicMobility}
@@ -456,6 +480,7 @@ export default function NewEvaluation(props) {
                                 label="Expansão Pulmonar" 
                                 name="lungExpansion" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.lungExpansion}
                                 onChange={handleChange}
                                 error={invalid.lungExpansion}
@@ -467,6 +492,7 @@ export default function NewEvaluation(props) {
                                 name="respiratoryFrequency" 
                                 type="number"
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.respiratoryFrequency}
                                 onChange={handleChange}
                                 error={invalid.respiratoryFrequency}
@@ -478,6 +504,7 @@ export default function NewEvaluation(props) {
                                 name="cardiacFrequency"
                                 type="number" 
                                 value={values.cardiacFrequency}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.cardiacFrequency}
                                 helperText={validationMessage.cardiacFrequency}
@@ -487,6 +514,7 @@ export default function NewEvaluation(props) {
                                 name="saturation" 
                                 type="number"
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.saturation}
                                 onChange={handleChange}
                                 error={invalid.saturation}
@@ -499,6 +527,7 @@ export default function NewEvaluation(props) {
                                 sx={{marginLeft: 2}} 
                                 type="number"
                                 value={values.arterialPressure}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.arterialPressure}
                                 helperText={validationMessage.arterialPressure}
@@ -509,6 +538,7 @@ export default function NewEvaluation(props) {
                                 type="number"
                                 sx={{marginLeft: 2}} 
                                 value={values.temperature}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.temperature}
                                 helperText={validationMessage.temperature}
@@ -517,6 +547,7 @@ export default function NewEvaluation(props) {
                                 label="Ausculta Pulmonar" 
                                 name="lungHearing" 
                                 value={values.lungHearing}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.lungHearing}
                                 helperText={validationMessage.lungHearing}
@@ -526,6 +557,7 @@ export default function NewEvaluation(props) {
                                 name="cough" 
                                 sx={{marginLeft: 2}} 
                                 value={values.cough}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.cough}
                                 helperText={validationMessage.cough}
@@ -535,6 +567,7 @@ export default function NewEvaluation(props) {
                                 label="Secreção" 
                                 name="secretion" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.secretion}
                                 onChange={handleChange}
                                 error={invalid.secretion}
@@ -544,6 +577,7 @@ export default function NewEvaluation(props) {
                                 label="Modo ventilatório" 
                                 name="ventilationMode" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.ventilationMode}
                                 onChange={handleChange}
                                 error={invalid.ventilationMode}
@@ -557,6 +591,7 @@ export default function NewEvaluation(props) {
                                 name="tonus" 
                                 sx={{marginLeft: 2}} 
                                 value={values.tonus}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.tonus}
                                 helperText={validationMessage.tonus}
@@ -566,6 +601,7 @@ export default function NewEvaluation(props) {
                                 name="reflexesAndReaction" 
                                 sx={{marginLeft: 2}} 
                                 value={values.reflexesAndReaction}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.reflexesAndReaction}
                                 helperText={validationMessage.reflexesAndReaction}
@@ -573,6 +609,7 @@ export default function NewEvaluation(props) {
                             <TextField 
                                 label="Força Muscular" 
                                 name="muscularStrength" 
+                                disabled={editable}
                                 value={values.muscularStrength}
                                 onChange={handleChange}
                                 error={invalid.muscularStrength}
@@ -582,6 +619,7 @@ export default function NewEvaluation(props) {
                                 label="Sensibilidade" 
                                 name="sensibility" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.sensibility}
                                 onChange={handleChange}
                                 error={invalid.sensibility}
@@ -592,6 +630,7 @@ export default function NewEvaluation(props) {
                                 label="Controle Motor" 
                                 name="motorControl" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.motorControl}
                                 onChange={handleChange}
                                 error={invalid.motorControl}
@@ -601,6 +640,7 @@ export default function NewEvaluation(props) {
                                 label="Exames Complementares" 
                                 name="complimentaryExams" 
                                 value={values.complimentaryExams}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.complimentaryExams}
                                 helperText={validationMessage.complimentaryExams}
@@ -609,6 +649,7 @@ export default function NewEvaluation(props) {
                                 label="Diagnostico Cinético-Funcional" 
                                 name="functionalKineticDiagnosis" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.functionalKineticDiagnosis}
                                 onChange={handleChange}
                                 error={invalid.functionalKineticDiagnosis}
@@ -619,6 +660,7 @@ export default function NewEvaluation(props) {
                                 label="Formato do Tórax" 
                                 name="thoraxFormat" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.thoraxFormat}
                                 onChange={handleChange}
                                 error={invalid.thoraxFormat}
@@ -629,6 +671,7 @@ export default function NewEvaluation(props) {
                                 label="Tipo de Ventilação" 
                                 name="ventilationType" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.ventilationType}
                                 onChange={handleChange}
                                 error={invalid.ventilationType}
@@ -638,6 +681,7 @@ export default function NewEvaluation(props) {
                                 label=" Padrão Muscular Ventilatório" 
                                 name="ventilationMuscularPattern" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.ventilationMuscularPattern}
                                 onChange={handleChange}
                                 error={invalid.ventilationMuscularPattern}
@@ -647,6 +691,7 @@ export default function NewEvaluation(props) {
                             <TextField 
                                 label="Ritmo Ventilatório" 
                                 name="ventilationRhythm" 
+                                disabled={editable}
                                 value={values.ventilationRhythm}
                                 onChange={handleChange}
                                 error={invalid.ventilationRhythm}
@@ -656,6 +701,7 @@ export default function NewEvaluation(props) {
                             <TextField 
                                 label="Problema" 
                                 name="problem" 
+                                disabled={editable}
                                 sx={{marginLeft: 2}} 
                                 value={values.problem}
                                 onChange={handleChange}
@@ -666,6 +712,7 @@ export default function NewEvaluation(props) {
                                 label="Alvo" 
                                 name="target" 
                                 sx={{marginLeft: 2}} 
+                                disabled={editable}
                                 value={values.target}
                                 onChange={handleChange}
                                 error={invalid.target}
@@ -675,6 +722,7 @@ export default function NewEvaluation(props) {
                                 label="Conduta" 
                                 name="conduct" 
                                 value={values.conduct}
+                                disabled={editable}
                                 onChange={handleChange}
                                 error={invalid.conduct}
                                 helperText={validationMessage.conduct}
@@ -682,6 +730,9 @@ export default function NewEvaluation(props) {
                         </Grid>
                     </Grid>
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
+                    { evaluation.currentDiseaseHistoric !== '' &&
+                        <Button variant="contained" color="success" sx={{margin: "20px"}} onClick={()=>{setEditable(false)}}>Editar</Button>
+                    }
                     <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
                 </form>
                 }
@@ -695,6 +746,7 @@ export default function NewEvaluation(props) {
                                 label="Pé direito" 
                                 name="rightFeet" 
                                 value={rpgValues.rightFeet}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.rightFeet}
                                 helperText={rpgValidationMessage.rightFeet}
@@ -704,6 +756,7 @@ export default function NewEvaluation(props) {
                                 name="leftFeet" 
                                 value={rpgValues.leftFeet}
                                 onChange={rpgHandleChange}
+                                disabled={editable}
                                 error={rpgInvalid.leftFeet}
                                 helperText={rpgValidationMessage.leftFeet}
                             />
@@ -711,6 +764,7 @@ export default function NewEvaluation(props) {
                                 label="Tornozelo direito" 
                                 name="rightAnkle" 
                                 value={rpgValues.rightAnkle}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.rightAnkle}
                                 helperText={rpgValidationMessage.rightAnkle}
@@ -718,6 +772,7 @@ export default function NewEvaluation(props) {
                             <TextField 
                                 label="Tornozelo esquerdo" 
                                 name="leftAnkle" 
+                                disabled={editable}
                                 value={rpgValues.leftAnkle}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.leftAnkle}
@@ -727,6 +782,7 @@ export default function NewEvaluation(props) {
                                 label="Joelho direito" 
                                 name="rightKnee" 
                                 value={rpgValues.rightKnee}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.rightKnee}
                                 helperText={rpgValidationMessage.rightKnee}
@@ -735,6 +791,7 @@ export default function NewEvaluation(props) {
                                 label="Joelho esquerdo" 
                                 name="leftKnee" 
                                 value={rpgValues.leftKnee}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.leftKnee}
                                 helperText={rpgValidationMessage.leftKnee}
@@ -747,6 +804,7 @@ export default function NewEvaluation(props) {
                                 label="Pelvis" 
                                 name="pelvis" 
                                 value={rpgValues.pelvis}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.pelvis}
                                 helperText={rpgValidationMessage.pelvis}
@@ -756,6 +814,7 @@ export default function NewEvaluation(props) {
                                 name="lumbar" 
                                 value={rpgValues.lumbar}
                                 onChange={rpgHandleChange}
+                                disabled={editable}
                                 error={rpgInvalid.lumbar}
                                 helperText={rpgValidationMessage.lumbar}
                             />
@@ -763,6 +822,7 @@ export default function NewEvaluation(props) {
                                 label="Dorsal" 
                                 name="dorsal" 
                                 value={rpgValues.dorsal}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.dorsal}
                                 helperText={rpgValidationMessage.dorsal}
@@ -771,6 +831,7 @@ export default function NewEvaluation(props) {
                                 label="Cervical" 
                                 name="cervical" 
                                 value={rpgValues.cervical}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.cervical}
                                 helperText={rpgValidationMessage.cervical}
@@ -779,6 +840,7 @@ export default function NewEvaluation(props) {
                                 label="Ombro direito" 
                                 name="rightShoulder" 
                                 value={rpgValues.rightShoulder}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.rightShoulder}
                                 helperText={rpgValidationMessage.rightShoulder}
@@ -787,6 +849,7 @@ export default function NewEvaluation(props) {
                                 label="Ombro esquerdo" 
                                 name="leftShoulder" 
                                 value={rpgValues.leftShoulder}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.leftShoulder}
                                 helperText={rpgValidationMessage.leftShoulder}
@@ -798,6 +861,7 @@ export default function NewEvaluation(props) {
                                 label="Escapula" 
                                 name="shoulderBlade" 
                                 value={rpgValues.shoulderBlade}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.shoulderBlade}
                                 helperText={rpgValidationMessage.shoulderBlade}
@@ -806,6 +870,7 @@ export default function NewEvaluation(props) {
                                 label="Cabeça" 
                                 name="head" 
                                 value={rpgValues.head}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.head}
                                 helperText={rpgValidationMessage.head}
@@ -813,6 +878,7 @@ export default function NewEvaluation(props) {
                             <TextField 
                                 label="Observações" 
                                 name="observations" 
+                                disabled={editable}
                                 value={rpgValues.observations}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.observations}
@@ -822,6 +888,7 @@ export default function NewEvaluation(props) {
                                 label="Diagnóstico Fisioterapêutico" 
                                 name="physiotherapyDiagnosis" 
                                 value={rpgValues.physiotherapyDiagnosis}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.physiotherapyDiagnosis}
                                 helperText={rpgValidationMessage.physiotherapyDiagnosis}
@@ -830,6 +897,7 @@ export default function NewEvaluation(props) {
                                 label="Alvo da reabilitação" 
                                 name="rehabTarget" 
                                 value={rpgValues.rehabTarget}
+                                disabled={editable}
                                 onChange={rpgHandleChange}
                                 error={rpgInvalid.rehabTarget}
                                 helperText={rpgValidationMessage.rehabTarget}
@@ -837,7 +905,10 @@ export default function NewEvaluation(props) {
                         </Grid>
                     </Grid>
                     <Button variant="contained" sx={{margin: "20px"}} type="submit" >Salvar</Button>
-                    <Button variant="contained" color="warning" sx={{margin: "20px"}} type="reset" >Limpar</Button>
+                    { rpgEvaluation.rightFeet !== '' &&
+                        <Button variant="contained" color="success" sx={{margin: "20px"}} onClick={()=>{setEditable(false)}}>Editar</Button>
+                    }
+                    <Button variant="contained" color="warning" sx={{margin: "20px"}} onClick={()=>{setValues(message); setRpgValues(rpgMessage);}} >Limpar</Button>
                 </form>
                 }
                 <Snackbar
