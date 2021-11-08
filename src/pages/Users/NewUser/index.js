@@ -113,8 +113,17 @@ export default function NewUser(props) {
         });
     }
 
+    const cpfMask = value => {
+        return value
+          .replace(/\D/g, '') // substitui qualquer caracter que nao seja numero por nada
+          .replace(/(\d{3})(\d)/, '$1.$2') // captura 2 grupos de numero o primeiro de 3 e o segundo de 1, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de numero
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+          .replace(/(-\d{2})\d+?$/, '$1') // captura 2 numeros seguidos de um traço e não deixa ser digitado mais nada
+      }
+
     function validateField(field) {
-        const value = field.value;
+        let value = field.value;
         const name = field.name;
 
         switch (name) {
@@ -128,15 +137,31 @@ export default function NewUser(props) {
                 }
                 break;
             case 'cpf':
-                const re = /[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}/;
-                if (re.test(value)) {
-                    setValidationAuxiliary(name, false);
-                    setValidationMessageAuxiliary(name, '');
-                } else {
-                    setValidationAuxiliary(name, true);
-                    setValidationMessageAuxiliary(name, 'Campo deve seguir o padrão xxx.xxx.xxx-xx, ou apenas números');
-                }
+                //const re = /[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}/;
+                // if (re.test(value)) {
+                //     setValidationAuxiliary(name, false);
+                //     setValidationMessageAuxiliary(name, '');
+                // } else {
+                //     setValidationAuxiliary(name, true);
+                //     setValidationMessageAuxiliary(name, 'Campo deve seguir o padrão xxx.xxx.xxx-xx, ou apenas números');
+                // }
+                const maskedValue = cpfMask(value);
+                setValues({
+                    ...values, 
+                    cpf: maskedValue,
+                });
                 break;
+
+            case 'phoneNumber':
+                let strippedValue = value.replace('(', '');
+                strippedValue = strippedValue.replace(')', '');
+                setValues({
+                    ...values, 
+                    phoneNumber: `(${strippedValue.slice(0,2)})${strippedValue.slice(2,11)}`,
+                });
+                break;
+
+            
             default:
                 break;
         }
