@@ -91,10 +91,11 @@ export default function NewUser(props) {
     const handleChange = (event) => {
         const fieldValue = event.target.value;
         const fieldName = event.target.name;
-        setValues({
-            ...values, 
-            [fieldName]: fieldValue,
-        });
+
+            setValues({
+                ...values, 
+                [fieldName]: fieldValue,
+            });
 
         validateField(event.target);
     };
@@ -160,7 +161,12 @@ export default function NewUser(props) {
                     phoneNumber: `(${strippedValue.slice(0,2)})${strippedValue.slice(2,11)}`,
                 });
                 break;
-
+            case 'streetNumber':
+                setValues({
+                    ...values, 
+                    streetNumber: `${value.replace(/\D/g, '').slice(0,5)}`,
+                });
+                break;
             
             default:
                 break;
@@ -306,7 +312,6 @@ export default function NewUser(props) {
                             <TextField 
                                 label="Número" 
                                 name="streetNumber"
-                                type="number"
                                 disabled={editable}
                                 error={invalid.streetNumber}
                                 helperText={validationMessage.streetNumber}

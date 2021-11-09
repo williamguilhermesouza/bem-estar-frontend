@@ -1,4 +1,4 @@
-import { Grid, MenuItem, TextField, Container, Button, Snackbar } from '@mui/material';
+import { Grid, MenuItem, TextField, Container, Button, Snackbar, InputAdornment } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import React, {useState} from 'react';
 import Sidebar from '../../../components/Sidebar';
@@ -92,6 +92,7 @@ export default function NewPatient(props) {
     const handleChange = (event) => {
         const fieldValue = event.target.value;
         const fieldName = event.target.name;
+        
         setValues({
             ...values, 
             [fieldName]: fieldValue,
@@ -114,6 +115,14 @@ export default function NewPatient(props) {
         });
     }
 
+    const cpfMask = value => {
+        return value
+          .replace(/\D/g, '') // substitui qualquer caracter que nao seja numero por nada
+          .replace(/(\d{3})(\d)/, '$1.$2') // captura 2 grupos de numero o primeiro de 3 e o segundo de 1, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de numero
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+          .replace(/(-\d{2})\d+?$/, '$1') // captura 2 numeros seguidos de um traço e não deixa ser digitado mais nada
+      }
 
     function validateField(field) {
         const value = field.value;
@@ -130,14 +139,39 @@ export default function NewPatient(props) {
                 }
                 break;
             case 'cpf':
-                const re = /[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}/;
-                if (re.test(value)) {
-                    setValidationAuxiliary(name, false);
-                    setValidationMessageAuxiliary(name, '');
-                } else {
-                    setValidationAuxiliary(name, true);
-                    setValidationMessageAuxiliary(name, 'Campo deve seguir o padrão xxx.xxx.xxx-xx, ou apenas números');
-                }
+                const maskedValue = cpfMask(value);
+                setValues({
+                    ...values, 
+                    cpf: maskedValue,
+                });
+                break;
+
+            case 'phoneNumber':
+                let strippedValue = value.replace('(', '');
+                strippedValue = strippedValue.replace(')', '');
+                setValues({
+                    ...values, 
+                    phoneNumber: `(${strippedValue.slice(0,2)})${strippedValue.slice(2,11)}`,
+                });
+                break;
+
+            case 'streetNumber':
+                setValues({
+                    ...values, 
+                    streetNumber: `${value.replace(/\D/g, '').slice(0,5)}`,
+                });
+                break;
+            case 'weight':
+                setValues({
+                    ...values, 
+                    weight: `${value.replace(/\D/g,'').slice(-5,-2)}.${value.replace(/\D/g,'').slice(-2)}`,
+                });
+                break;
+            case 'height':
+                setValues({
+                    ...values, 
+                    height: `${value.replace(/\D/g,'').slice(-3,-2)}.${value.replace(/\D/g,'').slice(-2)}`,
+                });
                 break;
             default:
                 break;
@@ -261,6 +295,7 @@ export default function NewPatient(props) {
                                 <MenuItem value="to">Tocantins</MenuItem> 
                             </TextField>
                             <TextField 
+                                select
                                 label="Cor" 
                                 required
                                 name="color" 
@@ -270,19 +305,24 @@ export default function NewPatient(props) {
                                 error={invalid.color}
                                 helperText={validationMessage.color}
                                 onChange={handleChange}
-                            />
+                            >
+                                <MenuItem value="Branco">Branco</MenuItem>
+                                <MenuItem value="Negro">Negro</MenuItem> 
+                                <MenuItem value="Pardo">Pardo</MenuItem> 
+                                <MenuItem value="Outra">Outra</MenuItem>  
+                            </TextField>
                             
                             <TextField 
                                 label="Peso" 
                                 required
                                 name="weight"
-                                type="number" 
                                 sx={{marginLeft: 2}} 
                                 value={values.weight}
                                 disabled={editable}
                                 error={invalid.weight}
                                 helperText={validationMessage.weight}
                                 onChange={handleChange}
+                                InputProps={{startAdornment: <InputAdornment position="start">kg</InputAdornment>}}
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -314,7 +354,6 @@ export default function NewPatient(props) {
                                 label="Número" 
                                 required
                                 name="streetNumber"
-                                type="number"
                                 error={invalid.streetNumber}
                                 disabled={editable}
                                 helperText={validationMessage.streetNumber}
@@ -322,6 +361,7 @@ export default function NewPatient(props) {
                                 onChange={handleChange} 
                             />
                             <TextField 
+                                select
                                 label="Religião" 
                                 required
                                 name="religion" 
@@ -331,7 +371,12 @@ export default function NewPatient(props) {
                                 error={invalid.religion}
                                 helperText={validationMessage.religion}
                                 onChange={handleChange}
-                            />
+                            >
+                                <MenuItem value="Católico">Católico</MenuItem>
+                                <MenuItem value="Evangélico">Evangélico</MenuItem> 
+                                <MenuItem value="Espirita">Espirita</MenuItem> 
+                                <MenuItem value="Outra">Outra</MenuItem>  
+                            </TextField>
                             <TextField 
                                 label="Naturalidade"
                                 required 
@@ -350,9 +395,9 @@ export default function NewPatient(props) {
                                 disabled={editable}
                                 helperText={validationMessage.height} 
                                 name="height"
-                                type="number" 
                                 value={values.height}
                                 onChange={handleChange}
+                                InputProps={{startAdornment: <InputAdornment position="start">m</InputAdornment>}}
                             />
                         </Grid>
                         <Grid item xs={4}>
