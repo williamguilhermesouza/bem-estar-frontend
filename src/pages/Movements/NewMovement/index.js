@@ -1,4 +1,4 @@
-import { Grid, TextField, Container, Button, Snackbar } from '@mui/material';
+import { Grid, TextField, Container, Button, Snackbar, InputAdornment } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
 import React, {useState} from 'react';
 import Sidebar from '../../../components/Sidebar';
@@ -31,7 +31,6 @@ export default function NewMovement(props) {
 
     if (props.location.state) {
         movement = props.location.state.movement;
-        console.log(props.location.state.movement);
     }
     
     const [values, setValues] = useState(movement);
@@ -43,10 +42,17 @@ export default function NewMovement(props) {
     const handleChange = (event) => {
         const fieldValue = event.target.value;
         const fieldName = event.target.name;
-        setValues({
-            ...values, 
-            [fieldName]: fieldValue,
-        });
+        if (fieldName === 'value') {
+            setValues({
+                ...values, 
+                value: `${fieldValue.replace(/\D/g,'').slice(0,-2)}.${fieldValue.replace(/\D/g,'').slice(-2)}`,
+            });
+        } else {
+            setValues({
+                ...values, 
+                [fieldName]: fieldValue,
+            });
+        }
     };
 
     async function handleSubmit(e) {
@@ -101,6 +107,7 @@ export default function NewMovement(props) {
                                 name="value" 
                                 value={values.value}
                                 onChange={handleChange}
+                                InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
                             />
                         </Grid>
                     </Grid>
