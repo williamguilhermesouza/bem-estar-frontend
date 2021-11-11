@@ -1,8 +1,8 @@
-import { Grid, TextField, Container, Button, Snackbar, InputAdornment } from '@mui/material';
+import { Grid, MenuItem, TextField, Container, Button, Snackbar, InputAdornment } from '@mui/material';
 import { createStyles, makeStyles } from '@material-ui/styles';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Sidebar from '../../../components/Sidebar';
-import {createMovement, updateMovement} from '../../../services/API';
+import {createMovement, updateMovement, getPatients} from '../../../services/API';
 
 
 const useStyles = makeStyles(theme => createStyles({
@@ -34,10 +34,18 @@ export default function NewMovement(props) {
     }
     
     const [values, setValues] = useState(movement);
+    const [patients, setPatients] = useState([]);
     const [openSnack, setOpenSnack] = useState(false);
     const [snackMessage, setSnackMessage] = useState();
     const vertical = 'top'; const horizontal = 'right';
 
+    useEffect(()=>{
+        const fetchData = async () => {
+            const response = await getPatients();
+            setPatients(response.data);
+        };
+        fetchData();
+    });
 
     const handleChange = (event) => {
         const fieldValue = event.target.value;
@@ -83,13 +91,17 @@ export default function NewMovement(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
                             <TextField 
-                                required
+                                select
                                 fullWidth 
-                                label="id do Paciente" 
+                                label="nome do Paciente" 
                                 name="patientId"
                                 value={values.patientId}
                                 onChange={handleChange}
-                            />
+                            >
+                                {patients? patients.map(patient => {
+                                    return <MenuItem key={patient.id} value={patient.id}>{patient.name}</MenuItem> 
+                                }): ''}
+                            </TextField>
                         </Grid>
                         <Grid item xs={4}>
                             <TextField 
